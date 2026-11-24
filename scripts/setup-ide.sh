@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
 # ==============================================================================
-# setup-ide.sh — Abbia OS Installer
+# setup-ide.sh — BoardAI OS Installer
 # ==============================================================================
-# Este script inicializa la estructura canónica .abbia/ (memoria 3-tier,
+# Este script inicializa la estructura canónica .boardai/ (memoria 3-tier,
 # métricas de telemetría y Knowledge Graph de decisiones) y genera los archivos
 # de reglas para diferentes IDEs de IA en el proyecto donde se ejecuta.
 #
 # Uso:
 #   bash setup-ide.sh             # interactivo
 #   bash setup-ide.sh --auto      # no-interactivo
-#   ./abbia setup
+#   ./boardai setup               # o ./board setup
 # ==============================================================================
 
 set -euo pipefail
@@ -29,27 +29,27 @@ else
 fi
 
 PROJECT_ROOT="$(detect_project_root)"
-resolve_abbia_paths "$PROJECT_ROOT"
+resolve_boardai_paths "$PROJECT_ROOT"
 
 echo -e "${CYAN}====================================================${NC}"
 echo -e "${CYAN}   🏗️   Instalador de Configuración de IDEs de IA     ${NC}"
-echo -e "${CYAN}              Abbia OS v4.0.0                       ${NC}"
+echo -e "${CYAN}             BoardAI OS v4.0.0                      ${NC}"
 echo -e "${CYAN}====================================================${NC}"
 
 # Determinar si está en modo submódulo
-if [ -d "$ABBIA_CORE" ]; then
+if [ -d "$BOARDAI_CORE" ]; then
     IN_SUBMODULE=true
     echo -e "${GREEN}✓ Detectado proyecto raíz en: ${PROJECT_ROOT}${NC}"
-    echo -e "${GREEN}✓ Abbia OS está integrado como submódulo en ${ABBIA_CORE#$PROJECT_ROOT/}.${NC}"
-elif [ "$PROJECT_ROOT" = "$ABBIA_CORE_ROOT" ]; then
+    echo -e "${GREEN}✓ BoardAI OS está integrado como submódulo en ${BOARDAI_CORE#$PROJECT_ROOT/}.${NC}"
+elif [ "$PROJECT_ROOT" = "$BOARDAI_CORE_ROOT" ]; then
     IN_SUBMODULE=false
-    echo -e "${YELLOW}! Ejecutando directamente en el repositorio core de Abbia (modo desarrollo).${NC}"
+    echo -e "${YELLOW}! Ejecutando directamente en el repositorio core de BoardAI (modo desarrollo).${NC}"
 else
     IN_SUBMODULE=false
     echo -e "${YELLOW}! No se detectó submódulo. Usando el directorio actual como raíz del proyecto.${NC}"
 fi
 
-TEMPLATES_DIR="$ABBIA_CORE_ROOT/templates"
+TEMPLATES_DIR="$BOARDAI_CORE_ROOT/templates"
 IDE_TEMPLATES_DIR="$TEMPLATES_DIR/ide-configs"
 
 if [ ! -d "$IDE_TEMPLATES_DIR" ]; then
@@ -285,8 +285,22 @@ EOF
         echo -e "  - ${ABBIA_DIR#$PROJECT_ROOT/}/knowledge-graph.yaml ya existe. Omitido."
     fi
 
-    # Copiar CLI wrapper ./abbia si no existe
-    if [ ! -f "$PROJECT_ROOT/abbia" ] && [ -f "$TEMPLATES_DIR/abbia" ]; then
+    # Copiar CLI wrapper ./boardai y crear symlinks ./board y ./abbia si no existen
+    if [ -f "$TEMPLATES_DIR/boardai" ]; then
+        if [ ! -f "$PROJECT_ROOT/boardai" ]; then
+            cp "$TEMPLATES_DIR/boardai" "$PROJECT_ROOT/boardai"
+            chmod +x "$PROJECT_ROOT/boardai"
+            echo -e "${GREEN}✓ Instalado CLI wrapper ejecutable en ./boardai${NC}"
+        fi
+        if [ ! -e "$PROJECT_ROOT/board" ]; then
+            (cd "$PROJECT_ROOT" && ln -sf "boardai" "board")
+            echo -e "${GREEN}✓ Creado alias/symlink ./board -> ./boardai${NC}"
+        fi
+        if [ ! -e "$PROJECT_ROOT/abbia" ]; then
+            (cd "$PROJECT_ROOT" && ln -sf "boardai" "abbia")
+            echo -e "${GREEN}✓ Creado alias/symlink de compatibilidad ./abbia -> ./boardai${NC}"
+        fi
+    elif [ ! -f "$PROJECT_ROOT/abbia" ] && [ -f "$TEMPLATES_DIR/abbia" ]; then
         cp "$TEMPLATES_DIR/abbia" "$PROJECT_ROOT/abbia"
         chmod +x "$PROJECT_ROOT/abbia"
         echo -e "${GREEN}✓ Instalado CLI wrapper ejecutable en ./abbia${NC}"
@@ -356,7 +370,7 @@ case $ide_choice in
         copy_rule_file "$IDE_TEMPLATES_DIR/clinerules" "$PROJECT_ROOT/.clinerules" "Cline (.clinerules)"
         copy_rule_file "$IDE_TEMPLATES_DIR/roomodes" "$PROJECT_ROOT/.roomodes" "Roo-Code (.roomodes)"
         copy_rule_file "$IDE_TEMPLATES_DIR/copilot-instructions.md" "$PROJECT_ROOT/.github/copilot-instructions.md" "Copilot (.github/copilot-instructions.md)"
-        copy_rule_file "$IDE_TEMPLATES_DIR/AGENTS.md" "$PROJECT_ROOT/AGENTS.md" "Guía General Abbia (AGENTS.md)"
+        copy_rule_file "$IDE_TEMPLATES_DIR/AGENTS.md" "$PROJECT_ROOT/AGENTS.md" "Guía General BoardAI (AGENTS.md)"
         ;;
     *)
         echo -e "Omitiendo generación de reglas de IDEs."
@@ -366,7 +380,7 @@ esac
 echo -e "\n${BLUE}--- Paso 3: Configuración de .gitignore y .gitattributes ---${NC}"
 if [ "$AUTO_MODE" = true ]; then
     configure_git="s"
-    echo -e "${YELLOW}! Modo automático: configurando .gitignore y .gitattributes para Abbia OS.${NC}"
+    echo -e "${YELLOW}! Modo automático: configurando .gitignore y .gitattributes para BoardAI OS.${NC}"
 else
     read -p "¿Deseas configurar .gitignore y .gitattributes para evitar conflictos en Git? (s/n): " configure_git
 fi
@@ -376,11 +390,11 @@ if [[ "$configure_git" =~ ^[sS]$ ]]; then
     [ ! -f "$GITIGNORE_PATH" ] && touch "$GITIGNORE_PATH"
 
     ENTRIES_ADDED=0
-    target_prefix="${ABBIA_DIR#$PROJECT_ROOT/}"
+    target_prefix="${BOARDAI_DIR#$PROJECT_ROOT/}"
     for entry in "$target_prefix/sessions/" "$target_prefix/dashboard.html" "$target_prefix/memory/context-snapshot.md" "$target_prefix/metrics/aggregates.yaml"; do
         if ! grep -qF "$entry" "$GITIGNORE_PATH"; then
-            if [ $ENTRIES_ADDED -eq 0 ] && ! grep -q "Abbia OS" "$GITIGNORE_PATH"; then
-                echo -e "\n# ==============================================================================\n# Abbia OS — Archivos temporales, sesiones y cachés generados\n# ==============================================================================" >> "$GITIGNORE_PATH"
+            if [ $ENTRIES_ADDED -eq 0 ] && ! grep -q "BoardAI OS" "$GITIGNORE_PATH"; then
+                echo -e "\n# ==============================================================================\n# BoardAI OS — Archivos temporales, sesiones y cachés generados\n# ==============================================================================" >> "$GITIGNORE_PATH"
             fi
             echo "$entry" >> "$GITIGNORE_PATH"
             ENTRIES_ADDED=$((ENTRIES_ADDED + 1))
@@ -388,7 +402,7 @@ if [[ "$configure_git" =~ ^[sS]$ ]]; then
     done
 
     if [ $ENTRIES_ADDED -gt 0 ]; then
-        echo -e "${GREEN}✓ Agregadas reglas de Abbia OS a .gitignore ($ENTRIES_ADDED nuevas entradas).${NC}"
+        echo -e "${GREEN}✓ Agregadas reglas de BoardAI OS a .gitignore ($ENTRIES_ADDED nuevas entradas).${NC}"
     else
         echo -e "  - Reglas de .gitignore ya configuradas."
     fi
@@ -399,8 +413,8 @@ if [[ "$configure_git" =~ ^[sS]$ ]]; then
     ATTR_ADDED=0
     for attr in "$target_prefix/memory/workflow-log.md merge=union" "$target_prefix/metrics/executions.yaml merge=union"; do
         if ! grep -qF "$attr" "$GITATTRIBUTES_PATH"; then
-            if [ $ATTR_ADDED -eq 0 ] && ! grep -q "Abbia OS" "$GITATTRIBUTES_PATH"; then
-                echo -e "\n# ==============================================================================\n# Abbia OS — Reglas de Merge para Git (.gitattributes)\n# ==============================================================================" >> "$GITATTRIBUTES_PATH"
+            if [ $ATTR_ADDED -eq 0 ] && ! grep -q "BoardAI OS" "$GITATTRIBUTES_PATH"; then
+                echo -e "\n# ==============================================================================\n# BoardAI OS — Reglas de Merge para Git (.gitattributes)\n# ==============================================================================" >> "$GITATTRIBUTES_PATH"
             fi
             echo "$attr" >> "$GITATTRIBUTES_PATH"
             ATTR_ADDED=$((ATTR_ADDED + 1))
@@ -415,10 +429,10 @@ if [[ "$configure_git" =~ ^[sS]$ ]]; then
 fi
 
 echo -e "\n${GREEN}====================================================${NC}"
-echo -e "${GREEN}     🎉 ¡Configuración de Abbia OS Completada!      ${NC}"
+echo -e "${GREEN}    🎉 ¡Configuración de BoardAI OS Completada!     ${NC}"
 echo -e "${GREEN}====================================================${NC}"
 echo -e "Siguientes pasos recomendados:"
-echo -e "1. Abre y edita ${YELLOW}${ABBIA_DIR#$PROJECT_ROOT/}/context.md${NC} con la información de tu proyecto."
-echo -e "2. Ejecuta ${GREEN}./abbia new FEAT 001 mi-feature${NC} para crear tu primera iniciativa."
-echo -e "3. Abre el visualizador con: ${GREEN}./abbia dashboard${NC}"
+echo -e "1. Abre y edita ${YELLOW}${BOARDAI_DIR#$PROJECT_ROOT/}/context.md${NC} con la información de tu proyecto."
+echo -e "2. Ejecuta ${GREEN}./boardai new FEAT 001 mi-feature${NC} (o ${GREEN}./board new ...${NC}) para crear tu primera iniciativa."
+echo -e "3. Abre el visualizador con: ${GREEN}./boardai dashboard${NC} (o ${GREEN}./board dashboard${NC})"
 echo -e "===================================================="

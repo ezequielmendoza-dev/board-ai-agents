@@ -44,10 +44,10 @@ else
 fi
 
 PROJECT_ROOT="$(detect_project_root)"
-resolve_abbia_paths "$PROJECT_ROOT"
+resolve_boardai_paths "$PROJECT_ROOT"
 
 echo -e "${CYAN}====================================================${NC}"
-echo -e "${CYAN}     🏁 Cierre de Fase (Abbia OS v4.0.0)            ${NC}"
+echo -e "${CYAN}     🏁 Cierre de Fase (BoardAI OS v4.0.0)          ${NC}"
 echo -e "${CYAN}====================================================${NC}"
 echo -e "Proyecto detectado: ${YELLOW}$PROJECT_ROOT${NC}"
 
@@ -203,7 +203,7 @@ LOG_FILE="$ABBIA_MEMORY_DIR/workflow-log.md"
 mkdir -p "$ABBIA_MEMORY_DIR"
 
 if [ -z "$NOTE" ]; then
-    NOTE="Cierre de fase $PHASE en Abbia OS. Documentación generada en ${ABBIA_INITIATIVES_DIR#$PROJECT_ROOT/}/$INITIATIVE/."
+    NOTE="Cierre de fase $PHASE en BoardAI OS. Documentación generada en ${BOARDAI_INITIATIVES_DIR#$PROJECT_ROOT/}/$INITIATIVE/."
 fi
 
 cat >> "$LOG_FILE" << EOF
@@ -212,21 +212,21 @@ cat >> "$LOG_FILE" << EOF
 
 - **Fase cerrada:** $PHASE
 - **Decisión:** $NOTE
-- **Razón:** La fase produjo/validó el artefacto correspondiente del DAG de Abbia OS.
+- **Razón:** La fase produjo/validó el artefacto correspondiente del DAG de BoardAI OS.
 - **Alternativas descartadas:** —
 - **Riesgo detectado:** ninguno
-- **Outputs producidos:** ${ABBIA_INITIATIVES_DIR#$PROJECT_ROOT/}/$INITIATIVE/
+- **Outputs producidos:** ${BOARDAI_INITIATIVES_DIR#$PROJECT_ROOT/}/$INITIATIVE/
 EOF
 echo -e "${GREEN}✓ Entrada agregada a workflow-log.md (append-only).${NC}"
 
 # 2. executions.yaml (append-only)
-METRICS_FILE="$ABBIA_METRICS_DIR/executions.yaml"
-mkdir -p "$ABBIA_METRICS_DIR"
+METRICS_FILE="$BOARDAI_METRICS_DIR/executions.yaml"
+mkdir -p "$BOARDAI_METRICS_DIR"
 
 if [ ! -f "$METRICS_FILE" ]; then
     cat > "$METRICS_FILE" << 'EOF'
 # ==============================================================================
-# executions.yaml — Abbia Observability & Telemetry
+# executions.yaml — BoardAI Observability & Telemetry
 # ==============================================================================
 # Append-only: cada ejecución de un agente agrega una entrada; nunca se reescribe.
 # ==============================================================================

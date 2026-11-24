@@ -1,145 +1,18 @@
 #!/usr/bin/env bash
 
 # ==============================================================================
-# abbia — Abbia OS CLI Entrypoint & Console Control Center
+# abbia — Legacy wrapper for BoardAI OS CLI
 # ==============================================================================
-# CLI wrapper para ejecutar rápidamente los comandos de Abbia OS desde la
-# raíz del proyecto o abrir el Terminal Dashboard interactivo.
+# Wrapper de compatibilidad hacia atrás que redirige a ./boardai o ejecuta
+# la lógica equivalente.
 # ==============================================================================
 
-set -euo pipefail
-
-CWD="$(pwd)"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-# Detectar ruta del core de Abbia
-CORE_PATH=""
-if [ -d "$CWD/.abbia/core/scripts" ]; then
-    CORE_PATH="$CWD/.abbia/core/scripts"
-elif [ -d "$CWD/.stratum/core/scripts" ]; then
-    CORE_PATH="$CWD/.stratum/core/scripts"
-elif [ -d "$CWD/.ai/agents/scripts" ]; then
-    CORE_PATH="$CWD/.ai/agents/scripts"
-elif [ -d "$CWD/scripts" ]; then
-    CORE_PATH="$CWD/scripts"
-elif [ -d "$SCRIPT_DIR/scripts" ]; then
-    CORE_PATH="$SCRIPT_DIR/scripts"
-elif [ -d "$SCRIPT_DIR/../scripts" ]; then
-    CORE_PATH="$SCRIPT_DIR/../scripts"
+if [ -f "$SCRIPT_DIR/boardai" ]; then
+    exec "$SCRIPT_DIR/boardai" "$@"
+elif [ -f "./boardai" ]; then
+    exec "./boardai" "$@"
 fi
 
-if [ -z "$CORE_PATH" ] || [ ! -d "$CORE_PATH" ]; then
-    echo "Error: No se encontró el directorio de scripts de Abbia OS (.abbia/core/scripts)."
-    exit 1
-fi
-
-# Detectar bundle interactivo TUI (dist/cli.mjs)
-CLI_BUNDLE=""
-if [ -f "$CWD/.abbia/core/dist/cli.mjs" ]; then
-    CLI_BUNDLE="$CWD/.abbia/core/dist/cli.mjs"
-elif [ -f "$CWD/dist/cli.mjs" ]; then
-    CLI_BUNDLE="$CWD/dist/cli.mjs"
-elif [ -f "$SCRIPT_DIR/../dist/cli.mjs" ]; then
-    CLI_BUNDLE="$SCRIPT_DIR/../dist/cli.mjs"
-elif [ -f "$SCRIPT_DIR/dist/cli.mjs" ]; then
-    CLI_BUNDLE="$SCRIPT_DIR/dist/cli.mjs"
-fi
-
-COMMAND="${1:-menu}"
-[ $# -gt 0 ] && shift || true
-
-case "$COMMAND" in
-    menu|cli|tui|"")
-        if [ -n "$CLI_BUNDLE" ] && command -v node >/dev/null 2>&1; then
-            node "$CLI_BUNDLE" "$@"
-        elif [ -f "$CORE_PATH/cli-menu.sh" ]; then
-            bash "$CORE_PATH/cli-menu.sh" "$@"
-        else
-            bash "$CORE_PATH/dashboard.sh" "$@"
-        fi
-        ;;
-    new|init-initiative)
-        bash "$CORE_PATH/new-initiative.sh" "$@"
-        ;;
-    finish|finish-phase)
-        bash "$CORE_PATH/finish-phase.sh" "$@"
-        ;;
-    archive|archive-initiative)
-        bash "$CORE_PATH/archive-initiative.sh" "$@"
-        ;;
-    sync)
-        bash "$CORE_PATH/sync-initiatives.sh" "$@"
-        ;;
-    validate|check)
-        bash "$CORE_PATH/validate-project.sh" "$@"
-        ;;
-    dashboard|ui)
-        bash "$CORE_PATH/dashboard.sh" "$@"
-        ;;
-    serve|live)
-        bash "$CORE_PATH/dashboard.sh" --serve "$@"
-        ;;
-    watch)
-        bash "$CORE_PATH/dashboard.sh" --watch "$@"
-        ;;
-    snapshot|summary)
-        if [ -f "$CWD/.abbia/memory/context-snapshot.md" ]; then
-            cat "$CWD/.abbia/memory/context-snapshot.md"
-        else
-            bash "$CORE_PATH/sync-initiatives.sh" --fix
-            [ -f "$CWD/.abbia/memory/context-snapshot.md" ] && cat "$CWD/.abbia/memory/context-snapshot.md"
-        fi
-        ;;
-    update)
-        if [ -f "$CORE_PATH/update-abbia.sh" ]; then
-            bash "$CORE_PATH/update-abbia.sh" "$@"
-        elif [ -f "$CORE_PATH/update-stratum.sh" ]; then
-            bash "$CORE_PATH/update-stratum.sh" "$@"
-        else
-            bash "$CORE_PATH/update-ai-agents.sh" "$@"
-        fi
-        ;;
-    setup)
-        bash "$CORE_PATH/setup-ide.sh" "$@"
-        ;;
-    migrate)
-        if [ -f "$CORE_PATH/migrate-to-abbia.sh" ]; then
-            bash "$CORE_PATH/migrate-to-abbia.sh" "$@"
-        else
-            bash "$CORE_PATH/migrate-to-stratum.sh" "$@"
-        fi
-        ;;
-    help|--help|-h)
-        echo "           ▲"
-        echo "          ╱ ╲"
-        echo "         ╱╱ ╲╲       ABBIA OS"
-        echo "        ╱╱   ╲╲      AI Software Engineering Operating System — v4.0.0"
-        echo "       ●═══◆═══●     Layered Context · Structured Memory · Autonomous Delivery"
-        echo "      ╱╱       ╲╲"
-        echo "     ●═══════════●"
-        echo ""
-        echo "Uso: ./abbia [comando] [argumentos]"
-        echo ""
-        echo "Tip: Ejecutar simplemente './abbia' abre el Panel de Control Interactivo en consola."
-        echo ""
-        echo "Comandos directos:"
-        echo "  (sin args)                 Abrir el Dashboard interactivo en consola"
-        echo "  menu                       Abrir el Dashboard interactivo en consola"
-        echo "  new <TIPO> <ID> <slug>     Crear una nueva iniciativa (FEAT, BUG, AUDIT, REF)"
-        echo "  finish <INIT> <FASE> [ROL] Cerrar fase con telemetría y snapshot"
-        echo "  archive <INIT>             Archivar iniciativa completada (requiere QA Aprobado)"
-        echo "  sync [--fix]               Sincronizar y reconciliar estado y métricas"
-        echo "  validate                   Validar consistencia de la estructura Abbia"
-        echo "  dashboard [OPCIONES]       Generar y abrir el visualizador interactivo (--watch, --serve)"
-        echo "  serve [PORT]               Iniciar servidor local con Live Reload (auto-recarga)"
-        echo "  watch                      Vigilar cambios en .abbia/ y regenerar automáticamente"
-        echo "  snapshot                   Ver el Context Snapshot actual en la consola"
-        echo "  update [VERSION]           Actualizar el framework Abbia OS"
-        echo "  migrate                    Migrar proyecto legacy (.ai/ o .stratum/) a Abbia (.abbia/)"
-        echo "  setup                      Regenerar reglas de IDE y estructura base"
-        ;;
-    *)
-        echo "Comando desconocido: '$COMMAND'. Ejecuta './abbia help' para ver opciones o './abbia' para el menú interactivo."
-        exit 1
-        ;;
-esac
+# Fallback si no está el binario nuevo localmente
+exec bash "$SCRIPT_DIR/../templates/boardai" "$@"

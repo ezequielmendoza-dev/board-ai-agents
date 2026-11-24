@@ -1,7 +1,7 @@
 # ==============================================================================
-# Abbia OS — Archivos temporales, sesiones y cachés generados
+# BoardAI OS — Archivos temporales, sesiones y cachés generados
 # ==============================================================================
-.abbia/sessions/
-.abbia/dashboard.html
-.abbia/memory/context-snapshot.md
-.abbia/metrics/aggregates.yaml
+.boardai/sessions/
+.boardai/dashboard.html
+.boardai/memory/context-snapshot.md
+.boardai/metrics/aggregates.yaml

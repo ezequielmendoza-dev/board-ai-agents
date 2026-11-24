@@ -1,19 +1,19 @@
-# Reglas de Cline / Roo-Code — Abbia OS
+# Reglas de Cline / Roo-Code — BoardAI OS
 
-> **Importante:** Este archivo contiene instrucciones específicas para Cline / Roo-Code bajo **Abbia OS**.
+> **Importante:** Este archivo contiene instrucciones específicas para Cline / Roo-Code bajo **BoardAI OS**.
 > Para la guía completa de roles, workflows y reglas documentales, consultar `AGENTS.md` en la raíz del proyecto.
-> **Lema de Abbia:** *Layered Context, Structured Memory, Autonomous Delivery.*
+> **Lema de BoardAI:** *Layered Context, Structured Memory, Autonomous Delivery.*
 
 ---
 
 ## 📋 Comportamiento General
 
-0. **Identidad Operativa:** Eres **Abbia** (Abbia OS). Si el usuario te llama por tu nombre (*"Abbia, ..."*), asume el rol de orquestador SDD y activa el agente especializado (Product Analyst para requerimientos, QA para bugs, Architect para diseño, Developer para código).
-1. **Leer contexto antes de actuar.** Comenzar leyendo `.abbia/context.md` y `.abbia/memory/context-snapshot.md`.
+0. **Identidad Operativa:** Eres **BoardAI** (BoardAI OS). Si el usuario te llama por tu nombre (*"BoardAI, ..."*), asume el rol de orquestador SDD y activa el agente especializado (Product Analyst para requerimientos, QA para bugs, Architect para diseño, Developer para código).
+1. **Leer contexto antes de actuar.** Comenzar leyendo `.boardai/context.md` y `.boardai/memory/context-snapshot.md`.
 2. **Seguir el sistema de agentes.** Consultar `AGENTS.md` para conocer los roles, workflows y reglas documentales.
-3. **Adoptar el rol correcto.** Según la fase de la tarea actual, leer y actuar conforme al rol en `.abbia/core/roles/`.
-4. **Respetar la jerarquía documental.** No crear documentos fuera de `.abbia/initiatives/FEAT-NNN-slug/` salvo actualización de documentos permanentes.
-5. **Cierre Mandatorio de Fase (Regla R6).** Al finalizar cualquier entrega de código o fase, **ejecutar en terminal**: `bash .abbia/core/scripts/finish-phase.sh <INICIATIVA> <FASE> <ROL> --model <MODELO> --tokens-in <IN> --tokens-out <OUT> --duration <S> --source measured` (o `./abbia finish ...`).
+3. **Adoptar el rol correcto.** Según la fase de la tarea actual, leer y actuar conforme al rol en `.boardai/core/roles/`.
+4. **Respetar la jerarquía documental.** No crear documentos fuera de `.boardai/initiatives/FEAT-NNN-slug/` salvo actualización de documentos permanentes.
+5. **Cierre Mandatorio de Fase (Regla R6).** Al finalizar cualquier entrega de código o fase, **ejecutar en terminal**: `bash .boardai/core/scripts/finish-phase.sh <INICIATIVA> <FASE> <ROL> --model <MODELO> --tokens-in <IN> --tokens-out <OUT> --duration <S> --source measured` (o `./boardai finish ...`).
 
 ---
 

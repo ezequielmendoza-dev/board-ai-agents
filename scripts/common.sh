@@ -1,29 +1,34 @@
 #!/usr/bin/env bash
 
 # ==============================================================================
-# common.sh — Abbia OS Shared Utilities
+# common.sh — BoardAI OS Shared Utilities
 # ==============================================================================
-# Archivo de utilidades compartidas para el framework Abbia OS (v4.0.0).
-# Soporta la estructura canónica .abbia/ y provee retrocompatibilidad con .stratum/ y .ai/.
+# Archivo de utilidades compartidas para el framework BoardAI OS (v4.0.0).
+# Soporta la estructura canónica .boardai/ y provee retrocompatibilidad con
+# .abbia/, .stratum/ y .ai/.
 # ==============================================================================
 
 # Evitar doble inclusión
-if [ -n "${ABBIA_COMMON_LOADED:-}" ]; then
+if [ -n "${BOARDAI_COMMON_LOADED:-}" ] || [ -n "${ABBIA_COMMON_LOADED:-}" ]; then
     return 0
 fi
-ABBIA_COMMON_LOADED=1
+BOARDAI_COMMON_LOADED=1
+ABBIA_COMMON_LOADED=1     # retrocompatibilidad
 STRATUM_COMMON_LOADED=1   # retrocompatibilidad
 AI_AGENTS_COMMON_LOADED=1 # retrocompatibilidad
 
-# Metadatos de Abbia OS
-ABBIA_NAME="Abbia OS"
-ABBIA_VERSION="v4.0.0"
-ABBIA_MOTTO="Layered Context, Structured Memory, Autonomous Delivery"
+# Metadatos de BoardAI OS
+BOARDAI_NAME="BoardAI OS"
+BOARDAI_VERSION="v4.0.0"
+BOARDAI_MOTTO="Layered Context, Structured Memory, Autonomous Delivery"
 
 # Alias retrocompatibles
-STRATUM_NAME="$ABBIA_NAME"
-STRATUM_VERSION="$ABBIA_VERSION"
-STRATUM_MOTTO="$ABBIA_MOTTO"
+ABBIA_NAME="$BOARDAI_NAME"
+ABBIA_VERSION="$BOARDAI_VERSION"
+ABBIA_MOTTO="$BOARDAI_MOTTO"
+STRATUM_NAME="$BOARDAI_NAME"
+STRATUM_VERSION="$BOARDAI_VERSION"
+STRATUM_MOTTO="$BOARDAI_MOTTO"
 
 # Colores para la consola
 GREEN='\033[0;32m'
@@ -38,16 +43,17 @@ if [ -z "${SCRIPT_DIR:-}" ]; then
     SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 fi
 
-ABBIA_CORE_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-STRATUM_CORE_ROOT="$ABBIA_CORE_ROOT" # alias retrocompatible
-AI_AGENTS_ROOT="$ABBIA_CORE_ROOT"   # alias retrocompatible
+BOARDAI_CORE_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+ABBIA_CORE_ROOT="$BOARDAI_CORE_ROOT" # alias retrocompatible
+STRATUM_CORE_ROOT="$BOARDAI_CORE_ROOT" # alias retrocompatible
+AI_AGENTS_ROOT="$BOARDAI_CORE_ROOT"   # alias retrocompatible
 CWD="$(pwd)"
 
 # Función para detectar la raíz del proyecto
 detect_project_root() {
     local curr="$CWD"
     while [ "$curr" != "/" ] && [ "$curr" != "." ]; do
-        if [ -d "$curr/.abbia" ] || [ -d "$curr/.stratum" ] || [ -d "$curr/.ai" ] || [ -f "$curr/.gitmodules" ]; then
+        if [ -d "$curr/.boardai" ] || [ -d "$curr/.abbia" ] || [ -d "$curr/.stratum" ] || [ -d "$curr/.ai" ] || [ -f "$curr/.gitmodules" ]; then
             echo "$curr"
             return 0
         fi
@@ -56,73 +62,89 @@ detect_project_root() {
     echo "$CWD"
 }
 
-# Resolver rutas del entorno Abbia en el proyecto destino
-resolve_abbia_paths() {
+# Resolver rutas del entorno BoardAI en el proyecto destino
+resolve_boardai_paths() {
     local root="${1:-$(detect_project_root)}"
     PROJECT_ROOT="$root"
 
-    if [ -d "$root/.abbia" ]; then
-        ABBIA_DIR="$root/.abbia"
-        ABBIA_IS_LEGACY=false
+    if [ -d "$root/.boardai" ]; then
+        BOARDAI_DIR="$root/.boardai"
+        BOARDAI_IS_LEGACY=false
+    elif [ -d "$root/.abbia" ]; then
+        BOARDAI_DIR="$root/.abbia"
+        BOARDAI_IS_LEGACY=true
     elif [ -d "$root/.stratum" ]; then
-        ABBIA_DIR="$root/.stratum"
-        ABBIA_IS_LEGACY=true
+        BOARDAI_DIR="$root/.stratum"
+        BOARDAI_IS_LEGACY=true
     elif [ -d "$root/.ai" ]; then
-        ABBIA_DIR="$root/.ai"
-        ABBIA_IS_LEGACY=true
+        BOARDAI_DIR="$root/.ai"
+        BOARDAI_IS_LEGACY=true
     else
         # Por defecto para inicializaciones nuevas
-        ABBIA_DIR="$root/.abbia"
-        ABBIA_IS_LEGACY=false
+        BOARDAI_DIR="$root/.boardai"
+        BOARDAI_IS_LEGACY=false
     fi
 
     # Submódulo / core
-    if [ -d "$ABBIA_DIR/core" ]; then
-        ABBIA_CORE="$ABBIA_DIR/core"
-    elif [ -d "$ABBIA_DIR/agents" ]; then
-        ABBIA_CORE="$ABBIA_DIR/agents"
+    if [ -d "$BOARDAI_DIR/core" ]; then
+        BOARDAI_CORE="$BOARDAI_DIR/core"
+    elif [ -d "$BOARDAI_DIR/agents" ]; then
+        BOARDAI_CORE="$BOARDAI_DIR/agents"
     else
-        ABBIA_CORE="$ABBIA_DIR/core"
+        BOARDAI_CORE="$BOARDAI_DIR/core"
     fi
 
     # Directorio de iniciativas (soporta initiatives y features)
-    if [ -d "$ABBIA_DIR/initiatives" ]; then
-        ABBIA_INITIATIVES_DIR="$ABBIA_DIR/initiatives"
-    elif [ -d "$ABBIA_DIR/features" ]; then
-        ABBIA_INITIATIVES_DIR="$ABBIA_DIR/features"
+    if [ -d "$BOARDAI_DIR/initiatives" ]; then
+        BOARDAI_INITIATIVES_DIR="$BOARDAI_DIR/initiatives"
+    elif [ -d "$BOARDAI_DIR/features" ]; then
+        BOARDAI_INITIATIVES_DIR="$BOARDAI_DIR/features"
     else
-        ABBIA_INITIATIVES_DIR="$ABBIA_DIR/initiatives"
+        BOARDAI_INITIATIVES_DIR="$BOARDAI_DIR/initiatives"
     fi
 
-    ABBIA_MEMORY_DIR="$ABBIA_DIR/memory"
-    ABBIA_METRICS_DIR="$ABBIA_DIR/metrics"
-    ABBIA_ARCHIVE_DIR="$ABBIA_DIR/archive"
-    ABBIA_SESSIONS_DIR="$ABBIA_DIR/sessions"
+    BOARDAI_MEMORY_DIR="$BOARDAI_DIR/memory"
+    BOARDAI_METRICS_DIR="$BOARDAI_DIR/metrics"
+    BOARDAI_ARCHIVE_DIR="$BOARDAI_DIR/archive"
+    BOARDAI_SESSIONS_DIR="$BOARDAI_DIR/sessions"
 
-    # Alias de compatibilidad para Stratum y AI-Agents
-    STRATUM_DIR="$ABBIA_DIR"
-    STRATUM_IS_LEGACY="$ABBIA_IS_LEGACY"
-    STRATUM_CORE="$ABBIA_CORE"
-    STRATUM_INITIATIVES_DIR="$ABBIA_INITIATIVES_DIR"
-    STRATUM_MEMORY_DIR="$ABBIA_MEMORY_DIR"
-    STRATUM_METRICS_DIR="$ABBIA_METRICS_DIR"
-    STRATUM_ARCHIVE_DIR="$ABBIA_ARCHIVE_DIR"
-    STRATUM_SESSIONS_DIR="$ABBIA_SESSIONS_DIR"
+    # Alias de retrocompatibilidad completa para Abbia, Stratum y AI-Agents
+    ABBIA_DIR="$BOARDAI_DIR"
+    ABBIA_IS_LEGACY="$BOARDAI_IS_LEGACY"
+    ABBIA_CORE="$BOARDAI_CORE"
+    ABBIA_INITIATIVES_DIR="$BOARDAI_INITIATIVES_DIR"
+    ABBIA_MEMORY_DIR="$BOARDAI_MEMORY_DIR"
+    ABBIA_METRICS_DIR="$BOARDAI_METRICS_DIR"
+    ABBIA_ARCHIVE_DIR="$BOARDAI_ARCHIVE_DIR"
+    ABBIA_SESSIONS_DIR="$BOARDAI_SESSIONS_DIR"
 
-    AI_DIR="$ABBIA_DIR"
-    FEATURES_DIR="$ABBIA_INITIATIVES_DIR"
-    ARCHIVE_DIR="$ABBIA_ARCHIVE_DIR"
-    MEM_DIR="$ABBIA_MEMORY_DIR"
-    METRICS_DIR="$ABBIA_METRICS_DIR"
+    STRATUM_DIR="$BOARDAI_DIR"
+    STRATUM_IS_LEGACY="$BOARDAI_IS_LEGACY"
+    STRATUM_CORE="$BOARDAI_CORE"
+    STRATUM_INITIATIVES_DIR="$BOARDAI_INITIATIVES_DIR"
+    STRATUM_MEMORY_DIR="$BOARDAI_MEMORY_DIR"
+    STRATUM_METRICS_DIR="$BOARDAI_METRICS_DIR"
+    STRATUM_ARCHIVE_DIR="$BOARDAI_ARCHIVE_DIR"
+    STRATUM_SESSIONS_DIR="$BOARDAI_SESSIONS_DIR"
+
+    AI_DIR="$BOARDAI_DIR"
+    FEATURES_DIR="$BOARDAI_INITIATIVES_DIR"
+    ARCHIVE_DIR="$BOARDAI_ARCHIVE_DIR"
+    MEM_DIR="$BOARDAI_MEMORY_DIR"
+    METRICS_DIR="$BOARDAI_METRICS_DIR"
 }
 
-# Alias funcional retrocompatible
+# Alias funcionales retrocompatibles
+resolve_abbia_paths() {
+    resolve_boardai_paths "$@"
+}
+
 resolve_stratum_paths() {
-    resolve_abbia_paths "$@"
+    resolve_boardai_paths "$@"
 }
 
 # Inicializar resolución de rutas por defecto
-resolve_abbia_paths "$CWD"
+resolve_boardai_paths "$CWD"
 
 # ---------- Iniciativas: tipos y patrón de nomenclatura ----------
 # Tipos de iniciativa soportados en .abbia/initiatives/ y .abbia/archive/.
@@ -164,19 +186,19 @@ initiative_id_pattern() {
     printf '^(%s)-[0-9]{3}$' "$(echo "$INITIATIVE_TYPES" | tr ' ' '|')"
 }
 
-# Roles del pipeline de Abbia OS
+# Roles del pipeline de BoardAI OS
 AGENT_ROLES="analyst ui-designer architect developer qa tech-lead devops skill-manager"
 
-# Re-genera .abbia/memory/context-snapshot.md compactando workflow-log + knowledge-graph + patterns.
+# Re-genera .boardai/memory/context-snapshot.md compactando workflow-log + knowledge-graph + patterns.
 # Uso: regenerate_context_snapshot <PROJECT_ROOT>
 regenerate_context_snapshot() {
     local project_root="${1:-$(detect_project_root)}"
-    resolve_abbia_paths "$project_root"
+    resolve_boardai_paths "$project_root"
 
-    local mem_dir="$ABBIA_MEMORY_DIR"
+    local mem_dir="$BOARDAI_MEMORY_DIR"
     local log="$mem_dir/workflow-log.md"
-    local kg_file="$ABBIA_DIR/knowledge-graph.yaml"
-    local dec_file="$ABBIA_DIR/decisions.md"
+    local kg_file="$BOARDAI_DIR/knowledge-graph.yaml"
+    local dec_file="$BOARDAI_DIR/decisions.md"
     local patterns="$mem_dir/patterns-learned.md"
     local out="$mem_dir/context-snapshot.md"
 
@@ -227,9 +249,9 @@ regenerate_context_snapshot() {
     fi
 
     cat > "$out" << EOF
-# Context Snapshot — Abbia 3-Tier Memory
+# Context Snapshot — BoardAI 3-Tier Memory
 
-> Generado automáticamente por finish-phase.sh al culminar una fase en Abbia OS.
+> Generado automáticamente por finish-phase.sh al culminar una fase en BoardAI OS.
 > Compacta \`workflow-log.md\` + \`knowledge-graph.yaml\` + \`patterns-learned.md\` —
 > **no se edita a mano**. Máximo ~30-50 líneas.
 
@@ -248,7 +270,7 @@ $pats
 EOF
 
     # --- Resumen de telemetría ---
-    local metrics_file="$ABBIA_METRICS_DIR/executions.yaml"
+    local metrics_file="$BOARDAI_METRICS_DIR/executions.yaml"
     if [ -f "$metrics_file" ]; then
         local total_sessions=0
         local null_tokens=0
@@ -263,43 +285,59 @@ EOF
             warn_line="> ⚠ Hay ${null_tokens} sesión(es) sin telemetría real. Pasá \`--tokens-in <N> --tokens-out <N> --source measured\` al llamar \`finish-phase.sh\`."
         fi
         cat >> "$out" << EOF
-## Métricas de telemetría (Abbia Observability)
+## Métricas de telemetría (BoardAI Observability)
 
 - Total sesiones registradas: **$total_sessions**
 - Con tokens medidos: **$measured_sessions** | Sin tokens (null): **$null_tokens**
 $warn_line
 
-Referencia: docs/agent-metrics.md (Abbia OS $ABBIA_VERSION).
+Referencia: docs/agent-metrics.md (BoardAI OS $BOARDAI_VERSION).
 EOF
     else
         cat >> "$out" << EOF
-## Métricas de telemetría (Abbia Observability)
+## Métricas de telemetría (BoardAI Observability)
 
-> Sin datos en $ABBIA_METRICS_DIR/executions.yaml aún.
+> Sin datos en $BOARDAI_METRICS_DIR/executions.yaml aún.
 
-Referencia: docs/agent-metrics.md (Abbia OS $ABBIA_VERSION).
+Referencia: docs/agent-metrics.md (BoardAI OS $BOARDAI_VERSION).
 EOF
     fi
 }
 
 # Auto-descubrimiento de telemetría desde variables de entorno y metadatos de sesión
 discover_session_telemetry() {
-    # Variables de entorno prioritarias (inyectadas por runners, harnesses o scripts)
-    if [ -n "${ABBIA_MODEL:-}" ] && [ "${MODEL:-null}" = "null" ]; then
+    # Variables de entorno prioritarias (soporta BOARDAI_ y ABBIA_)
+    if [ -n "${BOARDAI_MODEL:-}" ] && [ "${MODEL:-null}" = "null" ]; then
+        MODEL="$BOARDAI_MODEL"
+    elif [ -n "${ABBIA_MODEL:-}" ] && [ "${MODEL:-null}" = "null" ]; then
         MODEL="$ABBIA_MODEL"
     fi
-    if [ -n "${ABBIA_PROVIDER:-}" ] && [ "${PROVIDER:-null}" = "null" ]; then
+
+    if [ -n "${BOARDAI_PROVIDER:-}" ] && [ "${PROVIDER:-null}" = "null" ]; then
+        PROVIDER="$BOARDAI_PROVIDER"
+    elif [ -n "${ABBIA_PROVIDER:-}" ] && [ "${PROVIDER:-null}" = "null" ]; then
         PROVIDER="$ABBIA_PROVIDER"
     fi
-    if [ -n "${ABBIA_TOKENS_IN:-}" ] && [ "${TOKENS_IN:-null}" = "null" ]; then
+
+    if [ -n "${BOARDAI_TOKENS_IN:-}" ] && [ "${TOKENS_IN:-null}" = "null" ]; then
+        TOKENS_IN="$BOARDAI_TOKENS_IN"
+        SOURCE="measured"
+    elif [ -n "${ABBIA_TOKENS_IN:-}" ] && [ "${TOKENS_IN:-null}" = "null" ]; then
         TOKENS_IN="$ABBIA_TOKENS_IN"
         SOURCE="measured"
     fi
-    if [ -n "${ABBIA_TOKENS_OUT:-}" ] && [ "${TOKENS_OUT:-null}" = "null" ]; then
+
+    if [ -n "${BOARDAI_TOKENS_OUT:-}" ] && [ "${TOKENS_OUT:-null}" = "null" ]; then
+        TOKENS_OUT="$BOARDAI_TOKENS_OUT"
+        SOURCE="measured"
+    elif [ -n "${ABBIA_TOKENS_OUT:-}" ] && [ "${TOKENS_OUT:-null}" = "null" ]; then
         TOKENS_OUT="$ABBIA_TOKENS_OUT"
         SOURCE="measured"
     fi
-    if [ -n "${ABBIA_DURATION:-}" ] && [ "${DURATION_S:-null}" = "null" ]; then
+
+    if [ -n "${BOARDAI_DURATION:-}" ] && [ "${DURATION_S:-null}" = "null" ]; then
+        DURATION_S="$BOARDAI_DURATION"
+    elif [ -n "${ABBIA_DURATION:-}" ] && [ "${DURATION_S:-null}" = "null" ]; then
         DURATION_S="$ABBIA_DURATION"
     fi
 }

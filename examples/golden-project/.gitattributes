@@ -1,5 +1,5 @@
 # ==============================================================================
-# Abbia OS — Reglas de Merge para Git (.gitattributes)
+# BoardAI OS — Reglas de Merge para Git (.gitattributes)
 # ==============================================================================
-.abbia/memory/workflow-log.md merge=union
-.abbia/metrics/executions.yaml merge=union
+.boardai/memory/workflow-log.md merge=union
+.boardai/metrics/executions.yaml merge=union

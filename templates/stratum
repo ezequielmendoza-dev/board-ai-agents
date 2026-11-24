@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Shim de compatibilidad para templates/abbia
+# Shim de compatibilidad para templates/boardai
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-if [ -f "$SCRIPT_DIR/abbia" ]; then
-    exec bash "$SCRIPT_DIR/abbia" "$@"
+if [ -f "$SCRIPT_DIR/boardai" ]; then
+    exec bash "$SCRIPT_DIR/boardai" "$@"
 fi
-if [ -f "$SCRIPT_DIR/templates/abbia" ]; then
-    exec bash "$SCRIPT_DIR/templates/abbia" "$@"
+if [ -f "$SCRIPT_DIR/templates/boardai" ]; then
+    exec bash "$SCRIPT_DIR/templates/boardai" "$@"
 fi
 # fallback
-exec ./abbia "$@"
+exec ./boardai "$@"

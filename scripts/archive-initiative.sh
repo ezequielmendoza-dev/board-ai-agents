@@ -30,10 +30,10 @@ else
 fi
 
 PROJECT_ROOT="$(detect_project_root)"
-resolve_abbia_paths "$PROJECT_ROOT"
+resolve_boardai_paths "$PROJECT_ROOT"
 
 echo -e "${CYAN}====================================================${NC}"
-echo -e "${CYAN}   📦 Archivado de Iniciativa (Abbia OS v4.0.0)     ${NC}"
+echo -e "${CYAN}   📦 Archivado de Iniciativa (BoardAI OS v4.0.0)   ${NC}"
 echo -e "${CYAN}====================================================${NC}"
 echo -e "Proyecto: ${YELLOW}$PROJECT_ROOT${NC}"
 

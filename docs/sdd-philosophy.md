@@ -138,4 +138,4 @@ Un proyecto que sigue SDD con `ai-agents` puede:
 
 ---
 
-*Filosofía SDD v1.0 — ai-agents framework | github.com/ezequielmendoza-dev/abbia-os*
+*Filosofía SDD v1.0 — ai-agents framework | github.com/ezequielmendoza-dev/board-ai-agents*

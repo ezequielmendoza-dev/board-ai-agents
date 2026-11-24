@@ -1,13 +1,13 @@
-# Guía de Migración: De `ai-agents` (.ai/) a Abbia OS v4.0.0 (.abbia/)
+# Guía de Migración: De `ai-agents` (.ai/) a BoardAI OS v4.0.0 (.boardai/)
 
-Esta guía detalla el proceso para actualizar cualquier proyecto que consuma `ai-agents` (o `.stratum/`) a la nueva versión mayor **Abbia OS v4.0.0**.
+Esta guía detalla el proceso para actualizar cualquier proyecto que consuma `ai-agents` (o `.stratum/`) a la nueva versión mayor **BoardAI OS v4.0.0**.
 
 ---
 
-## 🚀 ¿Por qué migrar a Abbia OS?
+## 🚀 ¿Por qué migrar a BoardAI OS?
 
-1. **Estructura Modular e Inequívoca:** Cambia la carpeta genérica `.ai/` por `.abbia/`, y el submódulo de `.ai/agents` a `.abbia/core`.
-2. **CLI Wrapper Incluido (`./abbia`):** Ejecuta comandos de forma rápida desde la raíz sin recordar rutas largas de bash.
+1. **Estructura Modular e Inequívoca:** Cambia la carpeta genérica `.ai/` por `.boardai/`, y el submódulo de `.ai/agents` a `.boardai/core`.
+2. **CLI Wrapper Incluido (`./boardai`):** Ejecuta comandos de forma rápida desde la raíz sin recordar rutas largas de bash.
 3. **Roles con Context Contracts Renovados:** Nuevas identidades de agentes con contratos estrictos de contexto y telemetría automática.
 4. **Soporte de Retrocompatibilidad:** Tus scripts y workflows continuarán funcionando con normalidad.
 
@@ -18,19 +18,19 @@ Esta guía detalla el proceso para actualizar cualquier proyecto que consuma `ai
 Si ya tienes el submódulo en tu proyecto, simplemente ejecuta:
 
 ```bash
-# 1. Actualizar el submódulo al core de Abbia OS
+# 1. Actualizar el submódulo al core de BoardAI OS
 git submodule update --remote
 
 # 2. Ejecutar la herramienta de migración
-bash .ai/agents/scripts/migrate-to-abbia.sh
+bash .ai/agents/scripts/migrate-to-boardai.sh
 ```
 
 El script se encargará automáticamente de:
-- Renombrar `.ai/` o `.stratum/` a `.abbia/`
-- Mover `.ai/features/` a `.abbia/initiatives/`
-- Mover el submódulo a `.abbia/core/` y actualizar `.gitmodules`
+- Renombrar `.ai/` o `.stratum/` a `.boardai/`
+- Mover `.ai/features/` a `.boardai/initiatives/`
+- Mover el submódulo a `.boardai/core/` y actualizar `.gitmodules`
 - Actualizar reglas de `.gitignore` y `.gitattributes`
-- Instalar el CLI wrapper `./abbia`
+- Instalar el CLI wrapper `./boardai`
 - Regenerar reglas de IDEs (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`, etc.)
 - Validar la consistencia total del proyecto
 
@@ -42,17 +42,17 @@ Si prefieres realizar el proceso manualmente:
 
 ### 1. Mover la carpeta de configuración
 ```bash
-mv .ai .abbia
-mv .abbia/features .abbia/initiatives
-mv .abbia/agents .abbia/core
+mv .ai .boardai
+mv .boardai/features .boardai/initiatives
+mv .boardai/agents .boardai/core
 ```
 
 ### 2. Actualizar `.gitmodules`
 Edita `.gitmodules` para cambiar la ruta:
 ```ini
-[submodule ".abbia/core"]
-    path = .abbia/core
-    url = https://github.com/ezequielmendoza-dev/abbia-os.git
+[submodule ".boardai/core"]
+    path = .boardai/core
+    url = https://github.com/ezequielmendoza-dev/board-ai-agents.git
 ```
 
 ### 3. Actualizar `.gitignore` y `.gitattributes`
@@ -62,49 +62,49 @@ En `.gitignore`:
 - .ai/dashboard.html
 - .ai/memory/context-snapshot.md
 - .ai/metrics/aggregates.yaml
-+ .abbia/sessions/
-+ .abbia/dashboard.html
-+ .abbia/memory/context-snapshot.md
-+ .abbia/metrics/aggregates.yaml
++ .boardai/sessions/
++ .boardai/dashboard.html
++ .boardai/memory/context-snapshot.md
++ .boardai/metrics/aggregates.yaml
 ```
 
 En `.gitattributes`:
 ```diff
 - .ai/memory/workflow-log.md merge=union
 - .ai/metrics/executions.yaml merge=union
-+ .abbia/memory/workflow-log.md merge=union
-+ .abbia/metrics/executions.yaml merge=union
++ .boardai/memory/workflow-log.md merge=union
++ .boardai/metrics/executions.yaml merge=union
 ```
 
 ### 4. Regenerar Reglas de IDEs y Validar
 ```bash
-bash .abbia/core/scripts/setup-ide.sh --auto
-bash .abbia/core/scripts/validate-project.sh
+bash .boardai/core/scripts/setup-ide.sh --auto
+bash .boardai/core/scripts/validate-project.sh
 ```
 
 ---
 
-## 💡 Uso Diario con el CLI Wrapper `./abbia`
+## 💡 Uso Diario con el CLI Wrapper `./boardai`
 
-Una vez migrado, puedes usar el CLI `./abbia` desde la raíz de tu proyecto:
+Una vez migrado, puedes usar el CLI `./boardai` desde la raíz de tu proyecto:
 
 ```bash
 # Crear nueva feature
-./abbia new FEAT 001 login-seguro
+./boardai new FEAT 001 login-seguro
 
 # Cerrar fase con telemetría
-./abbia finish FEAT-001 spec analyst --tokens-in 3000 --tokens-out 1000 --duration 120 --source measured
+./boardai finish FEAT-001 spec analyst --tokens-in 3000 --tokens-out 1000 --duration 120 --source measured
 
 # Validar estado del proyecto
-./abbia validate
+./boardai validate
 
 # Abrir el dashboard interactivo (se actualiza automáticamente en cada cierre de fase)
-./abbia dashboard
+./boardai dashboard
 
 # Iniciar servidor en vivo con Live Reload automático
-./abbia serve
+./boardai serve
 
 # Vigilar cambios en segundo plano
-./abbia watch
+./boardai watch
 
 ```

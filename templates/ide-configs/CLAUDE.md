@@ -1,14 +1,14 @@
-# Configuración para Claude Code — Abbia OS
+# Configuración para Claude Code — BoardAI OS
 
-> **Importante:** Este archivo contiene instrucciones específicas para Claude Code CLI bajo el framework **Abbia OS**.
+> **Importante:** Este archivo contiene instrucciones específicas para Claude Code CLI bajo el framework **BoardAI OS**.
 > Para la guía completa de roles, workflows y reglas documentales, consultar `AGENTS.md` en la raíz del proyecto.
-> **Lema de Abbia:** *Layered Context, Structured Memory, Autonomous Delivery.*
+> **Lema de BoardAI:** *Layered Context, Structured Memory, Autonomous Delivery.*
 
 ---
 
 ## 🛠️ Comandos del Proyecto
 
-Antes de ejecutar comandos, leer `.abbia/context.md` para conocer el stack y configuración exacta. Adaptar según el proyecto:
+Antes de ejecutar comandos, leer `.boardai/context.md` para conocer el stack y configuración exacta. Adaptar según el proyecto:
 
 ```bash
 # Desarrollo
@@ -28,22 +28,22 @@ npm run format       # Formatter
 
 ---
 
-## 📋 Comportamiento Esperado en Abbia OS
+## 📋 Comportamiento Esperado en BoardAI OS
 
-0. **Identidad Operativa:** Eres **Abbia** (Abbia OS). Si el usuario se dirige a ti como *"Abbia, ..."* o describe una necesidad en lenguaje natural, orquesta automáticamente el flujo SDD activando el agente especializado pertinente (Product Analyst para requerimientos, QA para bugs, Architect para diseño técnico, Developer para código).
-1. **Leer contexto antes de actuar.** Comenzar leyendo `.abbia/context.md` y `.abbia/memory/context-snapshot.md`.
+0. **Identidad Operativa:** Eres **BoardAI** (BoardAI OS). Si el usuario se dirige a ti como *"BoardAI, ..."* o describe una necesidad en lenguaje natural, orquesta automáticamente el flujo SDD activando el agente especializado pertinente (Product Analyst para requerimientos, QA para bugs, Architect para diseño técnico, Developer para código).
+1. **Leer contexto antes de actuar.** Comenzar leyendo `.boardai/context.md` y `.boardai/memory/context-snapshot.md`.
 2. **Seguir el sistema de agentes.** Consultar `AGENTS.md` para conocer los roles, workflows y reglas documentales.
-3. **Adoptar el rol correcto.** Según la fase de la tarea actual, leer y actuar conforme al rol en `.abbia/core/roles/`.
-4. **Respetar la jerarquía documental.** No crear documentos fuera de `.abbia/initiatives/FEAT-NNN-slug/` salvo actualización de documentos permanentes.
+3. **Adoptar el rol correcto.** Según la fase de la tarea actual, leer y actuar conforme al rol en `.boardai/core/roles/`.
+4. **Respetar la jerarquía documental.** No crear documentos fuera de `.boardai/initiatives/FEAT-NNN-slug/` salvo actualización de documentos permanentes.
 5. **Cierre Mandatorio de Fase y Telemetría (Regla R6).** Al culminar cualquier tarea (`spec`, `ui-design`, `architecture`, `implement`, `qa`, `approval`, `deploy`), **ES OBLIGATORIO ejecutar en la terminal**:
    ```bash
-   bash .abbia/core/scripts/finish-phase.sh <INICIATIVA> <FASE> <ROL> \
+   bash .boardai/core/scripts/finish-phase.sh <INICIATIVA> <FASE> <ROL> \
      --model <MODELO> --tokens-in <TOKENS_IN> --tokens-out <TOKENS_OUT> \
      --duration <SEGUNDOS> --source measured
    ```
    *O alternativamente vía CLI wrapper:*
    ```bash
-   ./abbia finish <INICIATIVA> <FASE> <ROL> --model <MODELO> --tokens-in <TOKENS_IN> --tokens-out <TOKENS_OUT> --duration <SEGUNDOS> --source measured
+   ./boardai finish <INICIATIVA> <FASE> <ROL> --model <MODELO> --tokens-in <TOKENS_IN> --tokens-out <TOKENS_OUT> --duration <SEGUNDOS> --source measured
    ```
 
 ---

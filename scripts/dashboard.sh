@@ -24,7 +24,7 @@ else
 fi
 
 PROJECT_ROOT="$(detect_project_root)"
-resolve_abbia_paths "$PROJECT_ROOT"
+resolve_boardai_paths "$PROJECT_ROOT"
 
 NO_OPEN=0
 WATCH_MODE=0
@@ -50,11 +50,11 @@ while [ $# -gt 0 ]; do
             shift 2
             ;;
         -h|--help)
-            echo "Uso: bash dashboard.sh [OPCIONES] o ./abbia dashboard [OPCIONES]"
+            echo "Uso: bash dashboard.sh [OPCIONES] o ./boardai dashboard [OPCIONES] (o ./board dashboard)"
             echo ""
             echo "Opciones:"
             echo "  --no-open             Genera el dashboard sin abrir el navegador"
-            echo "  --watch, -w           Vigila cambios en .abbia/ y regenera automáticamente"
+            echo "  --watch, -w           Vigila cambios en .boardai/ y regenera automáticamente"
             echo "  --serve, -s           Inicia un servidor local en http://localhost:PORT con Live Reload"
             echo "  --port, -p <PORT>     Puerto para el servidor local (default: 4242)"
             echo "  -h, --help            Muestra esta ayuda"
@@ -67,11 +67,11 @@ while [ $# -gt 0 ]; do
 done
 
 echo -e "${CYAN}====================================================${NC}"
-echo -e "${CYAN}   📊 Visualizador Interactivo (Abbia OS v4.0.0)    ${NC}"
+echo -e "${CYAN}   📊 Visualizador Interactivo (BoardAI OS v4.0.0)  ${NC}"
 echo -e "${CYAN}====================================================${NC}"
 echo -e "Raíz del proyecto: ${YELLOW}$PROJECT_ROOT${NC}\n"
 
-AI_DIR="$ABBIA_DIR"
+AI_DIR="$BOARDAI_DIR"
 if [ ! -d "$AI_DIR" ]; then
     echo -e "${RED}Error: No se encontró la carpeta ($AI_DIR) en $PROJECT_ROOT${NC}"
     exit 1
@@ -1381,27 +1381,27 @@ cat << 'HTML_BODY' >> "$OUTPUT_HTML"
         <!-- Automation Scripts & CLI Reference -->
         <div class="space-y-2.5">
           <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-            <span>⚙️</span> Comandos CLI de Abbia OS
+            <span>⚙️</span> Comandos CLI de BoardAI OS
           </h4>
           <div class="space-y-2 font-mono text-[11px]">
             <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 flex items-center justify-between gap-2">
-              <span class="text-sky-300 truncate">./abbia new &lt;TIPO&gt; &lt;ID&gt; &lt;slug&gt;</span>
-              <span class="text-slate-500 font-sans text-[10px] flex-shrink-0">Crear iniciativa</span>
+              <span class="text-sky-300 truncate">./boardai new &lt;TIPO&gt; &lt;ID&gt; &lt;slug&gt;</span>
+              <span class="text-slate-500 font-sans text-[10px] flex-shrink-0">Crear iniciativa (alias: ./board)</span>
             </div>
             <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 flex items-center justify-between gap-2">
-              <span class="text-indigo-300 truncate">./abbia finish &lt;INICIATIVA&gt; &lt;FASE&gt; [ROL]</span>
+              <span class="text-indigo-300 truncate">./boardai finish &lt;INICIATIVA&gt; &lt;FASE&gt; [ROL]</span>
               <span class="text-slate-500 font-sans text-[10px] flex-shrink-0">Registrar fase & telemetría</span>
             </div>
             <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 flex items-center justify-between gap-2">
-              <span class="text-emerald-300 truncate">./abbia sync --fix</span>
+              <span class="text-emerald-300 truncate">./boardai sync --fix</span>
               <span class="text-slate-500 font-sans text-[10px] flex-shrink-0">Auto-reparar & sincronizar</span>
             </div>
             <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 flex items-center justify-between gap-2">
-              <span class="text-amber-300 truncate">./abbia validate</span>
+              <span class="text-amber-300 truncate">./boardai validate</span>
               <span class="text-slate-500 font-sans text-[10px] flex-shrink-0">Validar estructura</span>
             </div>
             <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 flex items-center justify-between gap-2">
-              <span class="text-teal-300 truncate">./abbia dashboard</span>
+              <span class="text-teal-300 truncate">./boardai dashboard</span>
               <span class="text-slate-500 font-sans text-[10px] flex-shrink-0">Abrir visualizador</span>
             </div>
           </div>
@@ -1410,10 +1410,10 @@ cat << 'HTML_BODY' >> "$OUTPUT_HTML"
         <!-- Links & Submodule Info -->
         <div class="border-t border-slate-800/80 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px]">
           <div class="text-slate-400">
-            Núcleo integrado en: <code class="text-sky-400 font-mono">.abbia/core/</code>
+            Núcleo integrado en: <code class="text-sky-400 font-mono">.boardai/core/</code>
           </div>
           <div class="flex items-center gap-3">
-            <a href="https://github.com/ezequielmendoza-dev/abbia-os" target="_blank" class="text-sky-400 hover:text-sky-300 font-semibold flex items-center gap-1 transition">
+            <a href="https://github.com/ezequielmendoza-dev/board-ai-agents" target="_blank" class="text-sky-400 hover:text-sky-300 font-semibold flex items-center gap-1 transition">
               <span>🌐</span> Repositorio GitHub ↗
             </a>
           </div>

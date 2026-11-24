@@ -181,4 +181,4 @@
 
 ---
 
-*Feature spec template v2.0 — ai-agents framework | github.com/ezequielmendoza-dev/abbia-os*
+*Feature spec template v2.0 — ai-agents framework | github.com/ezequielmendoza-dev/board-ai-agents*

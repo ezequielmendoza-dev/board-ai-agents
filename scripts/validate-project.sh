@@ -23,15 +23,15 @@ else
 fi
 
 PROJECT_ROOT="$(detect_project_root)"
-resolve_abbia_paths "$PROJECT_ROOT"
+resolve_boardai_paths "$PROJECT_ROOT"
 
 echo -e "${CYAN}====================================================${NC}"
-echo -e "${CYAN}   🔍 Validador de Estructura (Abbia OS v4.0.0)     ${NC}"
+echo -e "${CYAN}   🔍 Validador de Estructura (BoardAI OS v4.0.0)   ${NC}"
 echo -e "${CYAN}====================================================${NC}"
 echo -e "Escaneando raíz de proyecto: ${YELLOW}$PROJECT_ROOT${NC}"
 
-if [ ! -d "$ABBIA_DIR" ]; then
-    echo -e "${RED}Error Crítico: No se encontró la carpeta documental (${ABBIA_DIR#$PROJECT_ROOT/}) en $PROJECT_ROOT${NC}"
+if [ ! -d "$BOARDAI_DIR" ]; then
+    echo -e "${RED}Error Crítico: No se encontró la carpeta documental (${BOARDAI_DIR#$PROJECT_ROOT/}) en $PROJECT_ROOT${NC}"
     exit 1
 fi
 
@@ -50,8 +50,8 @@ warning_found() {
     WARNINGS=$((WARNINGS + 1))
 }
 
-if [ "$ABBIA_IS_LEGACY" = true ]; then
-    warning_found "El proyecto utiliza la estructura legacy ($(basename "$ABBIA_DIR")). Se recomienda ejecutar 'bash $(basename "$ABBIA_DIR")/core/scripts/migrate-to-abbia.sh' para migrar a Abbia OS v4.0.0 (.abbia/)."
+if [ "$BOARDAI_IS_LEGACY" = true ]; then
+    warning_found "El proyecto utiliza la estructura legacy ($(basename "$BOARDAI_DIR")). Se recomienda ejecutar 'bash $(basename "$BOARDAI_DIR")/core/scripts/migrate-to-boardai.sh' para migrar a BoardAI OS v4.0.0 (.boardai/)."
 fi
 
 # 1. Validar documentos permanentes

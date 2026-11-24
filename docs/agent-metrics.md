@@ -51,10 +51,10 @@ El pipeline de `ai-agents` produce artefactos (specs, diseños, QA) y ahora memo
 
 ## 3. Ubicación, Formato y Visualización
  
-Las métricas viven en `.abbia/metrics/`, separadas de la memoria cualitativa (`.abbia/memory/`):
+Las métricas viven en `.boardai/metrics/`, separadas de la memoria cualitativa (`.boardai/memory/`):
 
 ```
-.abbia/metrics/
+.boardai/metrics/
 ├── README.md               ← Contrato de uso (este sistema, copiado al proyecto)
 ├── executions.yaml         ← Registro append-only por ejecución de agente
 └── aggregates.yaml         ← Agregados multidimensionales (regenerado automáticamente)
@@ -62,9 +62,9 @@ Las métricas viven en `.abbia/metrics/`, separadas de la memoria cualitativa (`
 
 ### Visualización con el Dashboard & Live Server
 Las métricas se pueden visualizar de forma interactiva ejecutando:
-- `./abbia dashboard` — Genera y abre `.abbia/dashboard.html` en el navegador (se auto-regenera silenciosamente tras cada cierre de fase).
-- `./abbia serve [PORT]` — Inicia un servidor web local con **Live Reload** en tiempo real (recarga automática al guardar cambios).
-- `./abbia watch` — Vigila cambios en segundo plano y auto-regenera el HTML.
+- `./boardai dashboard` — Genera y abre `.boardai/dashboard.html` en el navegador (se auto-regenera silenciosamente tras cada cierre de fase).
+- `./boardai serve [PORT]` — Inicia un servidor web local con **Live Reload** en tiempo real (recarga automática al guardar cambios).
+- `./boardai watch` — Vigila cambios en segundo plano y auto-regenera el HTML.
 
 
 ### `executions.yaml` — registro bruto (append-only)
@@ -157,10 +157,10 @@ per_env:
 
 ### Fase 1 — Capturar (al cerrar cada agente)
 
-Todo agente del pipeline registra su ejecución en `executions.yaml` ejecutando obligatoriamente `finish-phase.sh` (o `./abbia finish`) con sus flags de telemetría (`--model`, `--tokens-in`, `--tokens-out`, `--duration`, `--source measured|estimate`).
+Todo agente del pipeline registra su ejecución en `executions.yaml` ejecutando obligatoriamente `finish-phase.sh` (o `./boardai finish`) con sus flags de telemetría (`--model`, `--tokens-in`, `--tokens-out`, `--duration`, `--source measured|estimate`).
 
 **Auto-Telemetry & Estimación Heurística Inteligente:**
-1. **Auto-descubrimiento:** `finish-phase.sh` inspecciona automáticamente variables de entorno de runner (`ABBIA_TOKENS_IN`, `ABBIA_TOKENS_OUT`, `ABBIA_MODEL`, `ABBIA_DURATION`, `ABBIA_PROVIDER`).
+1. **Auto-descubrimiento:** `finish-phase.sh` inspecciona automáticamente variables de entorno de runner (`BOARDAI_TOKENS_IN`, `BOARDAI_TOKENS_OUT`, `BOARDAI_MODEL`, `BOARDAI_DURATION`, `BOARDAI_PROVIDER`).
 2. **Estimación heurística inteligente (Fallback):** Si los tokens no se suministran explícitamente y no hay variables de entorno, `finish-phase.sh` estima tokens de entrada y salida basándose en el contexto cargado (`context-snapshot.md`, `knowledge-graph.yaml`, rol) y los artefactos producidos en la iniciativa, asignando `source: estimate`.
 3. **Control explícito:** El usuario o agente puede forzar valores medidos (`--source measured`), o desactivar la estimación (`--no-estimate`) para mantener valores `null` si así se desea.
 

@@ -21,14 +21,14 @@ else
 fi
 
 PROJECT_ROOT="$(detect_project_root)"
-resolve_abbia_paths "$PROJECT_ROOT"
+resolve_boardai_paths "$PROJECT_ROOT"
 
 echo -e "${CYAN}====================================================${NC}"
-echo -e "${CYAN}     🚀 Generador de Iniciativas (Abbia OS v4.0)    ${NC}"
+echo -e "${CYAN}    🚀 Generador de Iniciativas (BoardAI OS v4.0)   ${NC}"
 echo -e "${CYAN}====================================================${NC}"
 
-if [ ! -d "$ABBIA_DIR" ]; then
-    echo -e "${RED}Error: No se encontró la carpeta de configuración ($ABBIA_DIR) en: $PROJECT_ROOT${NC}"
+if [ ! -d "$BOARDAI_DIR" ]; then
+    echo -e "${RED}Error: No se encontró la carpeta de configuración ($BOARDAI_DIR) en: $PROJECT_ROOT${NC}"
     echo -e "Ejecuta primero: bash setup-ide.sh"
     exit 1
 fi

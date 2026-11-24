@@ -82,13 +82,13 @@ Este agente opera bajo el **Sistema de Orquestación de Skills** de ai-agents. L
 ## Context Contract
 
 ### Contexto Requerido (Bloqueante)
-- Especificación funcional aprobada (`.abbia/initiatives/FEAT-NNN-slug/spec.md`).
-- Contexto general del proyecto (`.abbia/context.md`).
-- Arquitectura global actual (`.abbia/architecture.md`).
+- Especificación funcional aprobada (`.boardai/initiatives/FEAT-NNN-slug/spec.md`).
+- Contexto general del proyecto (`.boardai/context.md`).
+- Arquitectura global actual (`.boardai/architecture.md`).
 
 ### Contexto Condicional
-- Diseño visual del UI Designer (`.abbia/initiatives/FEAT-NNN-slug/ui-design.md`, si la feature incluye interfaz de usuario).
-- Grafo y registro de decisiones vigentes (`.abbia/knowledge-graph.yaml` y `.abbia/decisions.md`).
+- Diseño visual del UI Designer (`.boardai/initiatives/FEAT-NNN-slug/ui-design.md`, si la feature incluye interfaz de usuario).
+- Grafo y registro de decisiones vigentes (`.boardai/knowledge-graph.yaml` y `.boardai/decisions.md`).
 - Feedback del Tech Lead (si un diseño previo tuvo observaciones o rechazo).
 
 ### Contexto Prohibido
@@ -255,7 +255,7 @@ El Software Architect **genera conocimiento técnico**. Su output puede afectar 
 
 Antes de crear cualquier documento técnico, verificar:
 
-> ¿Existe un documento de arquitectura en `.abbia/initiatives/FEAT-XXX/` o en `.abbia/architecture.md` que deba actualizarse?
+> ¿Existe un documento de arquitectura en `.boardai/initiatives/FEAT-XXX/` o en `.boardai/architecture.md` que deba actualizarse?
 
 Si existe → **actualizar**.  
 Si no existe → crear con el nombre correcto.
@@ -276,12 +276,12 @@ Si existe `architecture.md`, actualizar ese archivo y actualizar el campo `Versi
 
 ### R4 — Documentos de feature solo en su carpeta
 
-El diseño técnico de una feature vive en `.abbia/initiatives/FEAT-XXX/architecture.md`.  
-Los cambios a la arquitectura global del sistema se reflejan en `.abbia/architecture.md`.
+El diseño técnico de una feature vive en `.boardai/initiatives/FEAT-XXX/architecture.md`.  
+Los cambios a la arquitectura global del sistema se reflejan en `.boardai/architecture.md`.
 
-### R5 — Cuándo actualizar `.abbia/architecture.md`
+### R5 — Cuándo actualizar `.boardai/architecture.md`
 
-El Architect **debe actualizar** `.abbia/architecture.md` cuando:
+El Architect **debe actualizar** `.boardai/architecture.md` cuando:
 - El diseño de una feature introduce un nuevo módulo al sistema
 - Se cambia una relación estructural entre componentes existentes
 - Se adopta un nuevo patrón arquitectónico global
@@ -291,11 +291,11 @@ El Architect **debe actualizar** `.abbia/architecture.md` cuando:
 
 | Situación | Acción |
 |-----------|--------|
-| Feature nueva, diseño técnico inicial | Crear `.abbia/initiatives/FEAT-XXX/architecture.md` |
-| Tech Lead rechaza el diseño y pide revisión | Actualizar `.abbia/initiatives/FEAT-XXX/architecture.md` |
-| Feature cambia arquitectura global del sistema | Actualizar `.abbia/architecture.md` |
-| Decisión arquitectónica importante | Agregar `ARCH-NNN` en `.abbia/decisions.md` |
-| Nueva convención técnica global | Actualizar `.abbia/context.md` |
+| Feature nueva, diseño técnico inicial | Crear `.boardai/initiatives/FEAT-XXX/architecture.md` |
+| Tech Lead rechaza el diseño y pide revisión | Actualizar `.boardai/initiatives/FEAT-XXX/architecture.md` |
+| Feature cambia arquitectura global del sistema | Actualizar `.boardai/architecture.md` |
+| Decisión arquitectónica importante | Agregar `ARCH-NNN` en `.boardai/decisions.md` |
+| Nueva convención técnica global | Actualizar `.boardai/context.md` |
 
 ---
 
@@ -307,7 +307,7 @@ El Architect **debe actualizar** `.abbia/architecture.md` cuando:
 Actúa como el agente Software Architect definido en roles/architect.md.
 Nuestra feature actual es: FEAT-NNN-slug.
 
-Por favor, lee la especificación funcional en .abbia/initiatives/FEAT-NNN-slug/spec.md y genera el diseño técnico en .abbia/initiatives/FEAT-NNN-slug/architecture.md.
+Por favor, lee la especificación funcional en .boardai/initiatives/FEAT-NNN-slug/spec.md y genera el diseño técnico en .boardai/initiatives/FEAT-NNN-slug/architecture.md.
 ```
 
 ### Señales de buena activación
@@ -326,18 +326,18 @@ Por favor, lee la especificación funcional en .abbia/initiatives/FEAT-NNN-slug/
 
 > [!IMPORTANT]
 > **REGLA R6 — EJECUCIÓN OBLIGATORIA EN TERMINAL ANTES DE ENTREGAR:**  
-> Como Software Architect, una vez generado `architecture.md` y registrados los ADRs en `.abbia/knowledge-graph.yaml`, **NUNCA finalices tu respuesta** sin haber ejecutado en terminal el cierre con telemetría:
+> Como Software Architect, una vez generado `architecture.md` y registrados los ADRs en `.boardai/knowledge-graph.yaml`, **NUNCA finalices tu respuesta** sin haber ejecutado en terminal el cierre con telemetría:
 > ```bash
-> bash .abbia/core/scripts/finish-phase.sh <INICIATIVA> architecture architect \
+> bash .boardai/core/scripts/finish-phase.sh <INICIATIVA> architecture architect \
 >   --model <MODELO> --tokens-in <TOKENS_IN> --tokens-out <TOKENS_OUT> \
 >   --duration <SEGUNDOS> --source measured
 > ```
-> *Ejemplo:* `bash .abbia/core/scripts/finish-phase.sh FEAT-113 architecture architect --model gemini-3.7-flash --tokens-in 22000 --tokens-out 6500 --duration 900 --source measured`  
+> *Ejemplo:* `bash .boardai/core/scripts/finish-phase.sh FEAT-113 architecture architect --model gemini-3.7-flash --tokens-in 22000 --tokens-out 6500 --duration 900 --source measured`  
 > *Es responsabilidad obligatoria del agente pasar su modelo activo y los tokens/duración de la sesión (medidos por el IDE o estimados razonablemente según la complejidad del diseño técnico) con `--source measured` o `--source estimate`. NUNCA omitas los flags de telemetría.*
 
-Esto garantiza el registro append-only en `.abbia/memory/workflow-log.md`, la telemetría en `.abbia/metrics/executions.yaml` y la regeneración de `.abbia/memory/context-snapshot.md`.
+Esto garantiza el registro append-only en `.boardai/memory/workflow-log.md`, la telemetría en `.boardai/metrics/executions.yaml` y la regeneración de `.boardai/memory/context-snapshot.md`.
 
 ---
 
-*Agente versión 3.0 — Abbia OS framework | github.com/ezequielmendoza-dev/abbia-os*
+*Agente versión 3.0 — BoardAI OS framework | github.com/ezequielmendoza-dev/board-ai-agents*
 

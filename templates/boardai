@@ -1,0 +1,144 @@
+#!/usr/bin/env bash
+
+# ==============================================================================
+# boardai — BoardAI OS CLI Entrypoint & Console Control Center
+# ==============================================================================
+# CLI wrapper para ejecutar rápidamente los comandos de BoardAI OS desde la
+# raíz del proyecto o abrir el Terminal Dashboard interactivo.
+# ==============================================================================
+
+set -euo pipefail
+
+CWD="$(pwd)"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Detectar ruta del core de BoardAI
+CORE_PATH=""
+if [ -d "$CWD/.boardai/core/scripts" ]; then
+    CORE_PATH="$CWD/.boardai/core/scripts"
+elif [ -d "$CWD/.abbia/core/scripts" ]; then
+    CORE_PATH="$CWD/.abbia/core/scripts"
+elif [ -d "$CWD/.stratum/core/scripts" ]; then
+    CORE_PATH="$CWD/.stratum/core/scripts"
+elif [ -d "$CWD/.ai/agents/scripts" ]; then
+    CORE_PATH="$CWD/.ai/agents/scripts"
+elif [ -d "$CWD/scripts" ]; then
+    CORE_PATH="$CWD/scripts"
+elif [ -d "$SCRIPT_DIR/scripts" ]; then
+    CORE_PATH="$SCRIPT_DIR/scripts"
+elif [ -d "$SCRIPT_DIR/../scripts" ]; then
+    CORE_PATH="$SCRIPT_DIR/../scripts"
+fi
+
+if [ -z "$CORE_PATH" ] || [ ! -d "$CORE_PATH" ]; then
+    echo "Error: No se encontró el directorio de scripts de BoardAI OS (.boardai/core/scripts)."
+    exit 1
+fi
+
+# Detectar bundle interactivo TUI (dist/cli.mjs)
+CLI_BUNDLE=""
+if [ -f "$CWD/.boardai/core/dist/cli.mjs" ]; then
+    CLI_BUNDLE="$CWD/.boardai/core/dist/cli.mjs"
+elif [ -f "$CWD/.abbia/core/dist/cli.mjs" ]; then
+    CLI_BUNDLE="$CWD/.abbia/core/dist/cli.mjs"
+elif [ -f "$CWD/dist/cli.mjs" ]; then
+    CLI_BUNDLE="$CWD/dist/cli.mjs"
+elif [ -f "$SCRIPT_DIR/../dist/cli.mjs" ]; then
+    CLI_BUNDLE="$SCRIPT_DIR/../dist/cli.mjs"
+elif [ -f "$SCRIPT_DIR/dist/cli.mjs" ]; then
+    CLI_BUNDLE="$SCRIPT_DIR/dist/cli.mjs"
+fi
+
+COMMAND="${1:-menu}"
+[ $# -gt 0 ] && shift || true
+
+case "$COMMAND" in
+    menu|cli|tui|"")
+        if [ -n "$CLI_BUNDLE" ] && command -v node >/dev/null 2>&1; then
+            node "$CLI_BUNDLE" "$@"
+        elif [ -f "$CORE_PATH/cli-menu.sh" ]; then
+            bash "$CORE_PATH/cli-menu.sh" "$@"
+        else
+            bash "$CORE_PATH/dashboard.sh" "$@"
+        fi
+        ;;
+    new|init-initiative)
+        bash "$CORE_PATH/new-initiative.sh" "$@"
+        ;;
+    finish|finish-phase)
+        bash "$CORE_PATH/finish-phase.sh" "$@"
+        ;;
+    archive|archive-initiative)
+        bash "$CORE_PATH/archive-initiative.sh" "$@"
+        ;;
+    sync)
+        bash "$CORE_PATH/sync-initiatives.sh" "$@"
+        ;;
+    validate|check)
+        bash "$CORE_PATH/validate-project.sh" "$@"
+        ;;
+    dashboard|ui)
+        bash "$CORE_PATH/dashboard.sh" "$@"
+        ;;
+    serve|live)
+        bash "$CORE_PATH/dashboard.sh" --serve "$@"
+        ;;
+    watch)
+        bash "$CORE_PATH/dashboard.sh" --watch "$@"
+        ;;
+    snapshot|summary)
+        SNAPSHOT_FILE=""
+        if [ -f "$CWD/.boardai/memory/context-snapshot.md" ]; then
+            SNAPSHOT_FILE="$CWD/.boardai/memory/context-snapshot.md"
+        elif [ -f "$CWD/.abbia/memory/context-snapshot.md" ]; then
+            SNAPSHOT_FILE="$CWD/.abbia/memory/context-snapshot.md"
+        fi
+
+        if [ -n "$SNAPSHOT_FILE" ]; then
+            cat "$SNAPSHOT_FILE"
+        else
+            bash "$CORE_PATH/sync-initiatives.sh" --fix
+            if [ -f "$CWD/.boardai/memory/context-snapshot.md" ]; then
+                cat "$CWD/.boardai/memory/context-snapshot.md"
+            elif [ -f "$CWD/.abbia/memory/context-snapshot.md" ]; then
+                cat "$CWD/.abbia/memory/context-snapshot.md"
+            fi
+        fi
+        ;;
+    update)
+        if [ -f "$CORE_PATH/update-boardai.sh" ]; then
+            bash "$CORE_PATH/update-boardai.sh" "$@"
+        elif [ -f "$CORE_PATH/update-abbia.sh" ]; then
+            bash "$CORE_PATH/update-abbia.sh" "$@"
+        elif [ -f "$CORE_PATH/update-stratum.sh" ]; then
+            bash "$CORE_PATH/update-stratum.sh" "$@"
+        else
+            bash "$CORE_PATH/update-ai-agents.sh" "$@"
+        fi
+        ;;
+    setup)
+        bash "$CORE_PATH/setup-ide.sh" "$@"
+        ;;
+    help|--help|-h)
+        echo "Uso: ./boardai [comando] [opciones]  (o bien: ./board [comando])"
+        echo ""
+        echo "Comandos disponibles:"
+        echo "  menu|tui          Abre el menú interactivo / TUI (por defecto)"
+        echo "  new               Crea una nueva iniciativa (FEAT, BUG, AUDIT, REF)"
+        echo "  finish            Cierra una fase y registra telemetría / métricas"
+        echo "  sync              Sincroniza y auto-repara la estructura documental"
+        echo "  validate          Valida la integridad del proyecto según BoardAI OS"
+        echo "  archive           Archiva una iniciativa aprobada"
+        echo "  dashboard         Genera y abre el visualizador web interactivo"
+        echo "  serve             Inicia el Live Server con auto-recarga en vivo"
+        echo "  watch             Observa cambios y regenera dashboard.html en background"
+        echo "  snapshot          Muestra el Context Snapshot activo (Tier 3 Memory)"
+        echo "  setup             Ejecuta el asistente de configuración de IDEs"
+        echo "  update            Actualiza el submódulo core de BoardAI OS"
+        ;;
+    *)
+        echo "Comando desconocido: $COMMAND"
+        echo "Ejecuta './boardai help' para ver los comandos disponibles."
+        exit 1
+        ;;
+esac

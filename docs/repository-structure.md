@@ -63,12 +63,12 @@ ai-agents/
 │   └── architecture-change.md     # Cambios de arquitectura
 │
 ├── scripts/                       # Scripts de automatización
-│   ├── setup-ide.sh               # Inicializa .abbia/, seeds y genera reglas de IDE
-│   ├── migrate-to-abbia.sh        # Migra proyectos legacy (.ai/ o .stratum/) a .abbia/
-│   ├── update-abbia.sh            # Actualiza el framework (submodule + setup + sync + validación)
+│   ├── setup-ide.sh               # Inicializa .boardai/, seeds y genera reglas de IDE
+│   ├── migrate-to-boardai.sh        # Migra proyectos legacy (.ai/ o .stratum/) a .boardai/
+│   ├── update-boardai.sh            # Actualiza el framework (submodule + setup + sync + validación)
 │   ├── new-initiative.sh          # Bootstrap de feature/bug/auditoría/refactor
 │   ├── finish-phase.sh            # Cierre de fase con telemetría, snapshot y auto-refresh de dashboard
-│   ├── archive-initiative.sh      # Archiva iniciativas a .abbia/archive/ tras QA aprobado
+│   ├── archive-initiative.sh      # Archiva iniciativas a .boardai/archive/ tras QA aprobado
 │   ├── sync-initiatives.sh        # Reconciliación y auto-reparación (--fix)
 │   ├── validate-project.sh        # Valida estructura documental y sistemas
 │   ├── dashboard.sh               # Visualizador interactivo (--watch, --serve, Live Reload)
@@ -171,7 +171,7 @@ Los workflows documentan el flujo completo de trabajo para escenarios comunes. I
 
 ### `scripts/` — Automatización
 
-Scripts de setup y validación que los proyectos consumen desde `.abbia/core/scripts/` (o mediante el CLI `./abbia`): `setup-ide.sh` (inicializa `.abbia/`, memoria, métricas y reglas de IDE), `migrate-to-abbia.sh` (migración segura desde `.ai/` o `.stratum/`), `update-abbia.sh` (actualiza el framework en un comando: submodule + setup + sync + validación), `new-initiative.sh` (bootstrap de feature/bug/auditoría/refactor), `finish-phase.sh` (cierre de fase con telemetría, snapshot y auto-refresh de dashboard), `archive-initiative.sh` (archivado seguro tras QA aprobado), `sync-initiatives.sh` (auto-reconciliación y auto-reparación `--fix`), `validate-project.sh` (cumplimiento de reglas documentales), `dashboard.sh` (generador y visor web interactivo con soporte `--watch`, `--serve`, Live Reload y auto-actualización) y `common.sh` (librería compartida).
+Scripts de setup y validación que los proyectos consumen desde `.boardai/core/scripts/` (o mediante el CLI `./boardai`): `setup-ide.sh` (inicializa `.boardai/`, memoria, métricas y reglas de IDE), `migrate-to-boardai.sh` (migración segura desde `.ai/` o `.stratum/`), `update-boardai.sh` (actualiza el framework en un comando: submodule + setup + sync + validación), `new-initiative.sh` (bootstrap de feature/bug/auditoría/refactor), `finish-phase.sh` (cierre de fase con telemetría, snapshot y auto-refresh de dashboard), `archive-initiative.sh` (archivado seguro tras QA aprobado), `sync-initiatives.sh` (auto-reconciliación y auto-reparación `--fix`), `validate-project.sh` (cumplimiento de reglas documentales), `dashboard.sh` (generador y visor web interactivo con soporte `--watch`, `--serve`, Live Reload y auto-actualización) y `common.sh` (librería compartida).
 
 
 **Regla:** Los scripts deben ser idempotentes y no destructivos: pueden ejecutarse varias veces sin romper el estado del proyecto.
@@ -230,4 +230,4 @@ graph LR
 
 ---
 
-*Documentación versión 3.0 — ai-agents library | [github.com/ezequielmendoza-dev/abbia-os](https://github.com/ezequielmendoza-dev/abbia-os)*
+*Documentación versión 3.0 — ai-agents library | [github.com/ezequielmendoza-dev/board-ai-agents](https://github.com/ezequielmendoza-dev/board-ai-agents)*

@@ -18,7 +18,7 @@ else
 fi
 
 PROJECT_ROOT="$(detect_project_root)"
-resolve_abbia_paths "$PROJECT_ROOT"
+resolve_boardai_paths "$PROJECT_ROOT"
 
 # Estilos y colores
 BOLD='\033[1m'
@@ -78,7 +78,7 @@ show_header() {
     get_project_summary
     
     echo -e "${CYAN}${BOLD}           ▲${NC}"
-    echo -e "${CYAN}${BOLD}          ╱ ╲       ${BOLD}ABBIA OS${NC} ${CYAN}${BOLD}│ v4.0.0${NC}"
+    echo -e "${CYAN}${BOLD}          ╱ ╲       ${BOLD}BOARDAI OS${NC} ${CYAN}${BOLD}│ v4.0.0${NC}"
     echo -e "${CYAN}${BOLD}         ╱╱ ╲╲      ${DIM}AI Software Engineering Operating System${NC}"
     echo -e "${CYAN}${BOLD}        ╱╱   ╲╲     ${DIM}\"Layered Context · Structured Memory · Autonomous Delivery\"${NC}"
     echo -e "${GREEN}${BOLD}       ●═══${MAGENTA}◆${GREEN}═══●${NC}"
@@ -92,13 +92,13 @@ show_header() {
 
 # Listar iniciativas activas de forma visual
 show_active_initiatives_list() {
-    if [ ! -d "$ABBIA_INITIATIVES_DIR" ]; then
+    if [ ! -d "$BOARDAI_INITIATIVES_DIR" ]; then
         echo -e "${DIM}  (No hay directorio de iniciativas)${NC}"
         return
     fi
     
     shopt -s nullglob
-    local dirs=("$ABBIA_INITIATIVES_DIR"/*/)
+    local dirs=("$BOARDAI_INITIATIVES_DIR"/*/)
     shopt -u nullglob
     
     if [ ${#dirs[@]} -eq 0 ]; then
@@ -136,31 +136,31 @@ main_menu() {
 
         echo -e "${BOLD}Selecciona una acción:${NC}"
         echo ""
-        echo -e "  ${GREEN}${BOLD}1)${NC} 🚀 ${BOLD}Crear Nueva Iniciativa${NC} ${DIM}(./abbia new <TIPO> <ID> <slug>)${NC}"
+        echo -e "  ${GREEN}${BOLD}1)${NC} 🚀 ${BOLD}Crear Nueva Iniciativa${NC} ${DIM}(./boardai new <TIPO> <ID> <slug>)${NC}"
         echo -e "     ${DIM}Genera una nueva feature, bug, auditoría o refactor con sus artefactos.${NC}"
         echo ""
-        echo -e "  ${GREEN}${BOLD}2)${NC} 🏁 ${BOLD}Cerrar Fase & Telemetría${NC} ${DIM}(./abbia finish <INIT> <FASE> [ROL])${NC}"
+        echo -e "  ${GREEN}${BOLD}2)${NC} 🏁 ${BOLD}Cerrar Fase & Telemetría${NC} ${DIM}(./boardai finish <INIT> <FASE> [ROL])${NC}"
         echo -e "     ${DIM}Registra la fase completada, guarda tokens, duración y snapshot.${NC}"
         echo ""
-        echo -e "  ${GREEN}${BOLD}3)${NC} 📦 ${BOLD}Archivar Iniciativa${NC} ${DIM}(./abbia archive <INIT>)${NC}"
-        echo -e "     ${DIM}Mueve iniciativa con QA Aprobado a .abbia/archive/ y actualiza el grafo.${NC}"
+        echo -e "  ${GREEN}${BOLD}3)${NC} 📦 ${BOLD}Archivar Iniciativa${NC} ${DIM}(./boardai archive <INIT>)${NC}"
+        echo -e "     ${DIM}Mueve iniciativa con QA Aprobado a .boardai/archive/ y actualiza el grafo.${NC}"
         echo ""
-        echo -e "  ${GREEN}${BOLD}4)${NC} 🔄 ${BOLD}Sincronizar & Auto-Reparar${NC} ${DIM}(./abbia sync --fix)${NC}"
+        echo -e "  ${GREEN}${BOLD}4)${NC} 🔄 ${BOLD}Sincronizar & Auto-Reparar${NC} ${DIM}(./boardai sync --fix)${NC}"
         echo -e "     ${DIM}Reconcilia iniciativas con el Knowledge Graph y telemetría.${NC}"
         echo ""
-        echo -e "  ${GREEN}${BOLD}5)${NC} 🔍 ${BOLD}Validar Conformidad del Proyecto${NC} ${DIM}(./abbia validate)${NC}"
+        echo -e "  ${GREEN}${BOLD}5)${NC} 🔍 ${BOLD}Validar Conformidad del Proyecto${NC} ${DIM}(./boardai validate)${NC}"
         echo -e "     ${DIM}Audita estructura, invariantes, QA gates e higiene de Git.${NC}"
         echo ""
-        echo -e "  ${GREEN}${BOLD}6)${NC} 📊 ${BOLD}Abrir Dashboard Visual Web${NC} ${DIM}(./abbia dashboard)${NC}"
+        echo -e "  ${GREEN}${BOLD}6)${NC} 📊 ${BOLD}Abrir Dashboard Visual Web${NC} ${DIM}(./boardai dashboard)${NC}"
         echo -e "     ${DIM}Genera y abre la interfaz gráfica con telemetría FinOps y grafo 2D.${NC}"
         echo ""
-        echo -e "  ${GREEN}${BOLD}7)${NC} 🧠 ${BOLD}Ver Context Snapshot en Consola${NC} ${DIM}(.abbia/memory/context-snapshot.md)${NC}"
+        echo -e "  ${GREEN}${BOLD}7)${NC} 🧠 ${BOLD}Ver Context Snapshot en Consola${NC} ${DIM}(.boardai/memory/context-snapshot.md)${NC}"
         echo -e "     ${DIM}Muestra el resumen ejecutivo actual de memoria persistente.${NC}"
         echo ""
-        echo -e "  ${GREEN}${BOLD}8)${NC} 🛠️ ${BOLD}Instalar / Regenerar Reglas de IDE${NC} ${DIM}(./abbia setup)${NC}"
+        echo -e "  ${GREEN}${BOLD}8)${NC} 🛠️ ${BOLD}Instalar / Regenerar Reglas de IDE${NC} ${DIM}(./boardai setup)${NC}"
         echo -e "     ${DIM}Genera o actualiza Cursor, Claude Code, Windsurf, Cline, Copilot.${NC}"
         echo ""
-        echo -e "  ${GREEN}${BOLD}9)${NC} 🔄 ${BOLD}Actualizar Framework Abbia OS${NC} ${DIM}(./abbia update)${NC}"
+        echo -e "  ${GREEN}${BOLD}9)${NC} 🔄 ${BOLD}Actualizar Framework BoardAI OS${NC} ${DIM}(./boardai update)${NC}"
         echo -e "     ${DIM}Actualiza el submódulo core a la última versión disponible.${NC}"
         echo ""
         echo -e "  ${RED}${BOLD}0)${NC} 🚪 ${BOLD}Salir${NC}"
@@ -280,14 +280,16 @@ main_menu() {
                 read -p "Presiona Enter para continuar..." dummy
                 ;;
             9)
-                echo -e "\n${BLUE}=== Actualizar Framework Abbia OS ===${NC}"
-                if [ -f "$SCRIPT_DIR/update-abbia.sh" ]; then
+                echo -e "\n${BLUE}=== Actualizar Framework BoardAI OS ===${NC}"
+                if [ -f "$SCRIPT_DIR/update-boardai.sh" ]; then
+                    bash "$SCRIPT_DIR/update-boardai.sh"
+                elif [ -f "$SCRIPT_DIR/update-abbia.sh" ]; then
                     bash "$SCRIPT_DIR/update-abbia.sh"
                 fi
                 read -p "Presiona Enter para continuar..." dummy
                 ;;
             0|q|Q|exit)
-                echo -e "\n${GREEN}¡Hasta la próxima sesión de ingeniería con Abbia OS! 🎛️${NC}\n"
+                echo -e "\n${GREEN}¡Hasta la próxima sesión de ingeniería con BoardAI OS! 🎛️${NC}\n"
                 exit 0
                 ;;
             *)

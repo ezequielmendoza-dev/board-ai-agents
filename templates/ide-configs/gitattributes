@@ -1,9 +1,9 @@
 # ==============================================================================
-# Abbia OS — Reglas de Merge para Git (.gitattributes)
+# BoardAI OS — Reglas de Merge para Git (.gitattributes)
 # ==============================================================================
 # Estrategia de merge automático para archivos append-only de telemetría y memoria.
 # Previene conflictos en ramas concurrentes de desarrollo.
 # ==============================================================================
 
-.abbia/memory/workflow-log.md merge=union
-.abbia/metrics/executions.yaml merge=union
+.boardai/memory/workflow-log.md merge=union
+.boardai/metrics/executions.yaml merge=union

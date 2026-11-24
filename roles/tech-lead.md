@@ -92,12 +92,12 @@ Este agente opera bajo el **Sistema de Orquestación de Skills** de ai-agents. L
 
 ### Contexto Requerido (Bloqueante)
 - Artefacto específico a revisar según la fase (`spec.md`, `architecture.md`, código implementado, o `qa.md`).
-- Contexto general del proyecto (`.abbia/context.md`) y arquitectura actual (`.abbia/architecture.md`).
+- Contexto general del proyecto (`.boardai/context.md`) y arquitectura actual (`.boardai/architecture.md`).
 
 ### Contexto Condicional
-- Grafo de decisiones y ADRs (`.abbia/knowledge-graph.yaml` y `.abbia/decisions.md`).
-- Reglas de negocio permanentes (`.abbia/business-rules.md`).
-- Reporte de QA (`.abbia/initiatives/FEAT-NNN-slug/qa.md`) para emitir veredicto final de release.
+- Grafo de decisiones y ADRs (`.boardai/knowledge-graph.yaml` y `.boardai/decisions.md`).
+- Reglas de negocio permanentes (`.boardai/business-rules.md`).
+- Reporte de QA (`.boardai/initiatives/FEAT-NNN-slug/qa.md`) para emitir veredicto final de release.
 
 ### Contexto Prohibido
 - Aprobar fases sin verificar el cumplimiento de los contratos de calidad.
@@ -268,22 +268,22 @@ El Tech Lead rechaza y solicita corrección de cualquier documento con nombre in
 
 ### R4 — Verificar ubicación de documentos de feature
 
-El Tech Lead verifica que todos los documentos de una feature están en `.abbia/initiatives/FEAT-XXX/` y no en ninguna otra ubicación.
+El Tech Lead verifica que todos los documentos de una feature están en `.boardai/initiatives/FEAT-XXX/` y no en ninguna otra ubicación.
 
 ### R5 — Mantener `.ai/` actualizado
 
 El Tech Lead es el responsable final de que los documentos permanentes estén actualizados:
-- Verificar que `.abbia/architecture.md` refleja el sistema real después de cada release
-- Verificar que `.abbia/decisions.md` tiene registradas todas las decisiones importantes
-- Señalar cuando `.abbia/context.md` o `.abbia/business-rules.md` están desactualizados
+- Verificar que `.boardai/architecture.md` refleja el sistema real después de cada release
+- Verificar que `.boardai/decisions.md` tiene registradas todas las decisiones importantes
+- Señalar cuando `.boardai/context.md` o `.boardai/business-rules.md` están desactualizados
 
 ### Cuándo crear o actualizar documentos
 
 | Situación | Acción |
 |-----------|--------|
 | Revisión de feature aprobada | Verificar que los docs de la feature están en orden |
-| Decisión técnica importante durante revisión | Indicar al Architect que registre en `.abbia/decisions.md` |
-| Feature aprobada para release | Verificar que `.abbia/architecture.md` está actualizado |
+| Decisión técnica importante durante revisión | Indicar al Architect que registre en `.boardai/decisions.md` |
+| Feature aprobada para release | Verificar que `.boardai/architecture.md` está actualizado |
 | Detección de docs mal nombrados | Indicar corrección antes de aprobar |
 
 ---
@@ -296,7 +296,7 @@ El Tech Lead es el responsable final de que los documentos permanentes estén ac
 Actúa como el agente Tech Lead definido en roles/tech-lead.md.
 Nuestra feature actual es: FEAT-NNN-slug.
 
-Por favor, revisa el archivo de diseño (.abbia/initiatives/FEAT-NNN-slug/architecture.md) y el de especificación (.abbia/initiatives/FEAT-NNN-slug/spec.md) frente a las convenciones y estándares definidos.
+Por favor, revisa el archivo de diseño (.boardai/initiatives/FEAT-NNN-slug/architecture.md) y el de especificación (.boardai/initiatives/FEAT-NNN-slug/spec.md) frente a las convenciones y estándares definidos.
 ```
 
 ### Señales de buena activación
@@ -317,30 +317,30 @@ Por favor, revisa el archivo de diseño (.abbia/initiatives/FEAT-NNN-slug/archit
 > [!IMPORTANT]
 > **REGLA R6 — EJECUCIÓN OBLIGATORIA EN TERMINAL:**  
 > Como Tech Lead, al emitir cualquier veredicto de revisión o aprobación final, **NUNCA des por terminada tu respuesta** sin haber ejecutado en terminal:
-> `bash .abbia/core/scripts/finish-phase.sh <INICIATIVA> approval tech-lead --verdict <APROBADO|RECHAZADO> --model <MODELO> --tokens-in <N> --tokens-out <N> --duration <S> --source measured [--archive]`
+> `bash .boardai/core/scripts/finish-phase.sh <INICIATIVA> approval tech-lead --verdict <APROBADO|RECHAZADO> --model <MODELO> --tokens-in <N> --tokens-out <N> --duration <S> --source measured [--archive]`
 
 Como Tech Lead, eres el responsable del veredicto final de la iniciativa antes de su pase a producción:
 
 1. **Verificación de QA:** Confirma que `qa.md` tenga veredicto **`APROBADO`**.
 2. **Consulta Interactiva al Usuario:**  
    Al concluir tu revisión técnica y aprobar la iniciativa, **debes consultar explícitamente al usuario**:
-   > *"La iniciativa `<ID>` ha sido revisada y cuenta con QA Aprobado. ¿Deseas probarla en tu entorno de pruebas/staging antes de deployar, o confirmas el pase a producción para proceder con el archivado automático a `.abbia/archive/`?"*
+   > *"La iniciativa `<ID>` ha sido revisada y cuenta con QA Aprobado. ¿Deseas probarla en tu entorno de pruebas/staging antes de deployar, o confirmas el pase a producción para proceder con el archivado automático a `.boardai/archive/`?"*
 3. **Ejecución del Cierre:**
    - **Si el usuario desea probar en staging primero:**
      ```bash
-     bash .abbia/core/scripts/finish-phase.sh <INICIATIVA> approval tech-lead --verdict APROBADO \
+     bash .boardai/core/scripts/finish-phase.sh <INICIATIVA> approval tech-lead --verdict APROBADO \
        --model <MODELO> --tokens-in <N> --tokens-out <N> --duration <SEGUNDOS> --source measured
      ```
    - **Si el usuario confirma el pase a producción y archivado:**
      ```bash
-     bash .abbia/core/scripts/finish-phase.sh <INICIATIVA> approval tech-lead --verdict APROBADO --archive \
+     bash .boardai/core/scripts/finish-phase.sh <INICIATIVA> approval tech-lead --verdict APROBADO --archive \
        --model <MODELO> --tokens-in <N> --tokens-out <N> --duration <SEGUNDOS> --source measured
      # o individualmente:
-     bash .abbia/core/scripts/archive-initiative.sh <INICIATIVA>
+     bash .boardai/core/scripts/archive-initiative.sh <INICIATIVA>
      ```
    *Es responsabilidad obligatoria del agente pasar su modelo activo, veredicto formal y los tokens/duración de la sesión (medidos por el IDE o estimados según la revisión efectuada) con `--source measured` o `--source estimate`. NUNCA omitas los flags de telemetría.*
 
 ---
 
-*Agente versión 3.4.0 — Abbia OS framework | github.com/ezequielmendoza-dev/abbia-os*
+*Agente versión 3.4.0 — BoardAI OS framework | github.com/ezequielmendoza-dev/board-ai-agents*
 

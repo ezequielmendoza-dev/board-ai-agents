@@ -4,6 +4,16 @@ Todas los cambios notables en este repositorio se documentan en este archivo.
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
+## [4.2.0] — 2026-11-20
+
+### 🎛️ Rebranding a BoardAI OS
+- **Rebranding Formal a BoardAI OS** — Evolución de identidad hacia **BoardAI OS** (*Layered Context, Structured Memory, Autonomous Delivery*). El concepto une la orquestación en cadena de módulos de efectos (*Pedalboard*) con la placa madre de ingeniería (*Board/Circuit Board*) y el comité de expertos técnicos (*Board of Specialists*).
+- **Estructura Canónica `.boardai/`** — Nueva carpeta raíz de metadatos y memoria para proyectos destino (`.boardai/`), manteniendo retrocompatibilidad transparente con `.abbia/`, `.stratum/` y `.ai/`.
+- **CLI Dual `./boardai` y `./board`** — Instalación del comando principal `./boardai` con alias/symlink `./board` para comandos rápidos (`./board sync`, `./board finish`, `./board new`, etc.). Se mantiene `./abbia` como enlace de compatibilidad hacia atrás.
+- **Herramienta de Migración Integral (`scripts/migrate-to-boardai.sh`)** — Actualización de la herramienta de migración para mover proyectos `.abbia/`, `.stratum/` o `.ai/` hacia la estructura `.boardai/` preservando iniciativas, memoria y Git submodules.
+- **Actualización de Plantillas de IDE** — Reglas y directivas actualizadas para Cursor (`.cursorrules`, `.cursor/rules/*.mdc`), Claude Code (`CLAUDE.md`), Windsurf (`.windsurfrules`), Cline (`.clinerules`), Roo-Code (`.roomodes`) y Copilot (`copilot-instructions.md`).
+- **Suite de Pruebas Extendida (40/40 PASS)** — `tests/test-runner.sh` y el proyecto canónico `examples/golden-project/` actualizados y verificados al 100%.
+
 ## [4.1.0] — 2026-09-21
 
 ### 🚀 Auto-Telemetry & Estimación Heurística Inteligente

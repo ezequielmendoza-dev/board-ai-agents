@@ -22,10 +22,10 @@ else
 fi
 
 PROJECT_ROOT="$(detect_project_root)"
-resolve_abbia_paths "$PROJECT_ROOT"
+resolve_boardai_paths "$PROJECT_ROOT"
 
 echo -e "${CYAN}====================================================${NC}"
-echo -e "${CYAN}   🔄 Sincronizador de Iniciativas (Abbia OS)       ${NC}"
+echo -e "${CYAN}   🔄 Sincronizador de Iniciativas (BoardAI OS)     ${NC}"
 echo -e "${CYAN}====================================================${NC}"
 echo -e "Raíz del proyecto: ${YELLOW}$PROJECT_ROOT${NC}\n"
 

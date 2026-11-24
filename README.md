@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/abbia-banner.svg" alt="Abbia OS — AI Software Engineering Operating System" width="100%" />
+<img src="docs/assets/abbia-banner.svg" alt="BoardAI OS — AI Software Engineering Operating System" width="100%" />
 
 <br/><br/>
 
@@ -22,51 +22,53 @@
 
 </div>
 
-## 💡 ¿Por qué Abbia OS?
+## 💡 ¿Por qué BoardAI OS?
 
 Desarrollar software complejo con IA hoy suele sentirse como una sesión caótica de improvisación:
 * 😵 **Context Drift & Amnesia:** El chat olvida decisiones tomadas 10 mensajes atrás.
 * 🌪️ **El Chatbot "Sabelotodo":** Un único prompt gigante intenta ser analista, arquitecto, frontend, backend y QA al mismo tiempo, fallando en los detalles críticos.
 * 💣 **Refactors a Ciegas:** La IA reescribe código rompiendo contratos previos e invariantes de negocio no documentadas.
 
-### 🎙️ La Filosofía del Estudio de Grabación
+### 🎛️ La Filosofía del Board de Ingeniería y Efectos en Cadena
 
-En los legendarios estudios de grabación (como *Abbey Road*, de donde nace nuestro nombre y donde bandas icónicas como *Pink Floyd* y *The Beatles* crearon sus obras maestras), **nada queda al azar**:
-1. Cada instrumento se graba en su propia **pista aislada** con micrófonos dedicados (*Agentes con roles y contextos acotados*).
-2. La cinta matriz y las notas de sesión registran cada toma (*Memoria persistente en 3 capas*).
-3. La mezcla y la masterización validan que cada frecuencia esté en su lugar antes de ir al vinilo (*QA adversarial y Quality Gates*).
+En la música profesional y en la ingeniería de sonido (al igual que en un **Pedalboard** o una **consola de mezcla de estudio**), nada queda al azar:
+1. Cada pedal o módulo procesa su señal en su propia **etapa aislada** sin introducir ruido al resto (*Agentes con roles y contextos acotados*).
+2. El cableado (*patching*) define un flujo de señal determinista en serie y paralelo (*Pipelines con DAGs*).
+3. La cinta matriz y las notas de sesión registran cada toma (*Memoria persistente en 3 capas*).
+4. El máster final valida que cada frecuencia esté en su lugar antes del release (*QA adversarial y Quality Gates*).
 
-**Abbia OS** traslada esta disciplina al desarrollo de software con IA: sustituimos los hilos de chat efímeros por **artefactos versionados en Git**, **contratos de contexto claros** y **flujos DAG deterministas**.
+**BoardAI OS** traslada esta disciplina al desarrollo de software con IA: sustituimos los hilos de chat efímeros por **artefactos versionados en Git**, **contratos de contexto claros** y **flujos DAG deterministas**.
 
 ---
 
 ## ⚡ Quick Start (En 3 Minutos)
 
-### 1️⃣ Agrega Abbia OS como Git Submodule
+### 1️⃣ Agrega BoardAI OS como Git Submodule
 En la raíz del repositorio de tu aplicación:
 ```bash
-git submodule add https://github.com/ezequielmendoza-dev/abbia-os.git .abbia/core
-git commit -m "chore: integrate Abbia OS core submodule"
+git submodule add https://github.com/ezequielmendoza-dev/board-ai-agents.git .boardai/core
+git commit -m "chore: integrate BoardAI OS core submodule"
 ```
 
 ### 2️⃣ Inicializa el entorno e integra tu IDE
 ```bash
-bash .abbia/core/scripts/setup-ide.sh
+bash .boardai/core/scripts/setup-ide.sh
 ```
-> 🪄 *El script creará automáticamente el directorio `.abbia/`, sembrará la memoria persistente, instalará el ejecutable `./abbia` y configurará las reglas de tu IDE favorito (**Cursor, Claude Code, Windsurf, Cline o GitHub Copilot**).*
+> 🪄 *El script creará automáticamente el directorio `.boardai/`, sembrará la memoria persistente, instalará el ejecutable `./boardai` (con alias `./board`) y configurará las reglas de tu IDE favorito (**Cursor, Claude Code, Windsurf, Cline o GitHub Copilot**).*
 
 ### 3️⃣ Crea tu primera iniciativa
 ```bash
 # Crear estructura de una nueva feature
-./abbia new FEAT 001 autenticacion-mfa
+./boardai new FEAT 001 autenticacion-mfa
+# (o usa el alias rápido: ./board new FEAT 001 autenticacion-mfa)
 
 # Abrir el Dashboard interactivo con telemetría y grafo en tiempo real
-./abbia dashboard
+./boardai dashboard
 ```
 
 ---
 
-## 🏛️ ¿Cómo Funciona Abbia OS?
+## 🏛️ ¿Cómo Funciona BoardAI OS?
 
 ```mermaid
 flowchart LR
@@ -78,7 +80,7 @@ flowchart LR
     F --> G["🚀 Deploy & Archivado\n(DevOps & Sync)"]
 ```
 
-### 👥 8 Agentes Especializados (Tus pistas de producción)
+### 👥 8 Agentes Especializados (Tus módulos de producción)
 
 Cada agente cuenta con un rol definido, herramientas específicas y un **Context Contract** que garantiza que solo consuma la información que necesita, maximizando la precisión del modelo y minimizando el gasto de tokens.
 
@@ -110,58 +112,58 @@ skills/
 
 ---
 
-### 🧠 Abbia 3-Tier Memory (Memoria Persistente)
+### 🧠 BoardAI 3-Tier Memory (Memoria Persistente)
 
 La memoria del proyecto no se pierde entre chats o reinicios de IDE:
 
-1. **Tier 1 — Memoria Episódica (`.abbia/memory/workflow-log.md`):** Registro cronológico e inmutable de cada fase completada, qué agente intervino y qué archivos cambió.
-2. **Tier 2 — Memoria Compactada (`.abbia/memory/context-snapshot.md`):** Resumen ejecutivo regenerado automáticamente con el estado actual, iniciativas activas y bloqueos.
-3. **Tier 3 — Memoria Semántica (`.abbia/knowledge-graph.yaml`):** Grafo de Decisiones de Arquitectura (ADRs) con dependencias, conflictos y reemplazos.
+1. **Tier 1 — Memoria Episódica (`.boardai/memory/workflow-log.md`):** Registro cronológico e inmutable de cada fase completada, qué agente intervino y qué archivos cambió.
+2. **Tier 2 — Memoria Compactada (`.boardai/memory/context-snapshot.md`):** Resumen ejecutivo regenerado automáticamente con el estado actual, iniciativas activas y bloqueos.
+3. **Tier 3 — Memoria Semántica (`.boardai/knowledge-graph.yaml`):** Grafo de Decisiones de Arquitectura (ADRs) con dependencias, conflictos y reemplazos.
 
 ---
 
-### 🛠️ Suite de Comandos CLI (`./abbia`)
+### 🛠️ Suite de Comandos CLI (`./boardai` / `./board`)
 
-Abbia OS incluye un CLI wrapper listo para usar en tu terminal:
+BoardAI OS incluye un CLI wrapper listo para usar en tu terminal:
 
 ```bash
 # Iniciar una iniciativa (feature, bug, audit, refactor)
-./abbia new FEAT 042 checkout-stripe
+./boardai new FEAT 042 checkout-stripe
 
 # Finalizar fase y registrar telemetría (tokens, duración, snapshot)
-./abbia finish FEAT-042 spec analyst --model gpt-4o --tokens-in 1200 --tokens-out 800
+./boardai finish FEAT-042 spec analyst --model gpt-4o --tokens-in 1200 --tokens-out 800
 
-# Archivar iniciativa completada a .abbia/archive/ tras QA aprobado
-./abbia archive FEAT-042
+# Archivar iniciativa completada a .boardai/archive/ tras QA aprobado
+./boardai archive FEAT-042
 
 # Sincronizar y auto-reparar métricas y grafo
-./abbia sync --fix
+./boardai sync --fix
 
 # Validar conformidad documental del proyecto
-./abbia validate
+./boardai validate
 
-# Lanzar el visualizador web interactivo (abre .abbia/dashboard.html)
-./abbia dashboard
+# Lanzar el visualizador web interactivo (abre .boardai/dashboard.html)
+./boardai dashboard
 
 # Iniciar servidor local en vivo con Live Reload (auto-recarga en tiempo real)
-./abbia serve [PORT]
+./boardai serve [PORT]
 
-# Vigilar cambios en .abbia/ y auto-regenerar dashboard.html en segundo plano
-./abbia watch
+# Vigilar cambios en .boardai/ y auto-regenerar dashboard.html en segundo plano
+./boardai watch
 
 # Actualizar el framework a la última versión
-./abbia update
+./boardai update
 
-# Migrar proyecto existente desde .ai/ o .stratum/
-./abbia migrate
+# Migrar proyecto existente desde .abbia/, .ai/ o .stratum/
+./boardai migrate
 ```
 
 ---
 
 ### 📊 Dashboard Interactivo & Live Visualizer
 
-Con `./abbia dashboard` o `./abbia serve`, accede a una aplicación visual completa para auditar y monitorear tu proyecto:
-* ⚡ **Live Reload & Auto-Regeneración:** Los scripts de ciclo de vida (`finish`, `new`, `archive`, `sync`) actualizan automáticamente `dashboard.html`. Con `./abbia serve`, el navegador se **recarga solo en tiempo real** al guardar cualquier archivo.
+Con `./boardai dashboard` o `./boardai serve`, accede a una aplicación visual completa para auditar y monitorear tu proyecto:
+* ⚡ **Live Reload & Auto-Regeneración:** Los scripts de ciclo de vida (`finish`, `new`, `archive`, `sync`) actualizan automáticamente `dashboard.html`. Con `./boardai serve`, el navegador se **recarga solo en tiempo real** al guardar cualquier archivo.
 * 📈 **Telemetría & FinOps:** Gráficos 2x2 de consumo de tokens, costos en USD estimados en vivo (OpenRouter API) y duración por fase/modelo.
 * 🕸️ **Grafo 2D Interactivo:** Visualización física de decisiones de arquitectura y sus dependencias (Vis.js).
 * 📋 **Matriz de Iniciativas:** Estado en vivo de especificaciones, diseños y veredictos de QA.
@@ -169,12 +171,12 @@ Con `./abbia dashboard` o `./abbia serve`, accede a una aplicación visual compl
 
 ---
 
-### 📂 Anatomía de un Proyecto con Abbia OS
+### 📂 Anatomía de un Proyecto con BoardAI OS
 
 ```
 mi-proyecto/
-├── .abbia/
-│   ├── core/                    ← Submódulo Git (Abbia OS Framework)
+├── .boardai/
+│   ├── core/                    ← Submódulo Git (BoardAI OS Framework)
 │   ├── context.md               ← Identidad, stack tecnológico y registro de IDs
 │   ├── business-rules.md        ← Reglas de negocio e invariantes permanentes
 │   ├── architecture.md          ← Arquitectura viva del sistema
@@ -190,7 +192,8 @@ mi-proyecto/
 │   ├── initiatives/             ← Iniciativas activas (FEAT-XXX, BUG-XXX)
 │   ├── archive/                 ← Iniciativas finalizadas en producción
 │   └── dashboard.html           ← Dashboard visual interactivo
-├── abbia                        ← CLI wrapper ejecutable
+├── boardai                      ← CLI wrapper ejecutable principal
+├── board                        ← Alias / Symlink rápido
 ├── AGENTS.md                    ← Fuente de verdad para agentes en el proyecto
 └── .cursorrules / CLAUDE.md     ← Reglas según tu IDE preferido
 ```
@@ -199,28 +202,28 @@ mi-proyecto/
 
 ## 🏆 Proyecto de Referencia Canónico (Golden Project)
 
-Explora [`examples/golden-project/`](examples/golden-project/) para ver un proyecto real configurado con Abbia OS:
-* Incluye iniciativas en curso (`.abbia/initiatives/FEAT-002-order-checkout/`).
-* Incluye iniciativas cerradas en producción (`.abbia/archive/FEAT-001-user-auth/`).
+Explora [`examples/golden-project/`](examples/golden-project/) para ver un proyecto real configurado con BoardAI OS:
+* Incluye iniciativas en curso (`.boardai/initiatives/FEAT-002-order-checkout/`).
+* Incluye iniciativas cerradas en producción (`.boardai/archive/FEAT-001-user-auth/`).
 * Grafo de arquitectura interconectado y telemetría de muestra.
 
 ---
 
-## 🔄 ¿Vienes de `.ai/` o versiones previas?
+## 🔄 ¿Vienes de `.abbia/`, `.ai/` o `.stratum/`?
 
-¡Migrar es facilísimo y 100% seguro! Si tu proyecto tiene la estructura previa (`.ai/` o `.stratum/`), actualiza tu submódulo y ejecuta el script de migración:
+¡Migrar es facilísimo y 100% seguro! Si tu proyecto tiene una estructura previa, actualiza tu submódulo y ejecuta el script de migración:
 
 ```bash
-# 1. Actualiza el submódulo a la última versión de Abbia OS
+# 1. Actualiza el submódulo a la última versión de BoardAI OS
 git submodule update --remote
 
 # 2. Ejecuta el script de migración desde tu estructura previa
-bash .ai/agents/scripts/migrate-to-abbia.sh
-# (o si venías de .stratum/: bash .stratum/core/scripts/migrate-to-abbia.sh)
+bash .boardai/core/scripts/migrate-to-boardai.sh
+# (o si venías de .abbia/: bash .abbia/core/scripts/migrate-to-boardai.sh)
 ```
 
-> 💡 *El script migrará tus artefactos a `.abbia/`, preservará todas tus iniciativas y memoria técnica, configurará `.gitmodules` y dejará instalado el nuevo CLI wrapper `./abbia` en la raíz de tu proyecto.*  
-> Para más detalles paso a paso, consulta la [Guía de Migración a Abbia OS v4.0.0](docs/migration-guide-v4.md).
+> 💡 *El script migrará tus artefactos a `.boardai/`, preservará todas tus iniciativas y memoria técnica, configurará `.gitmodules` y dejará instalado el nuevo CLI wrapper `./boardai` y su alias `./board` en la raíz de tu proyecto.*  
+> Para más detalles paso a paso, consulta la [Guía de Migración a BoardAI OS v4.0.0](docs/migration-guide-v4.md).
 
 ---
 
@@ -228,7 +231,7 @@ bash .ai/agents/scripts/migrate-to-abbia.sh
 
 | Guía | Tema |
 | :--- | :--- |
-| 📖 [`docs/migration-guide-v4.md`](docs/migration-guide-v4.md) | Guía paso a paso para migrar a Abbia OS v4.0.0 |
+| 📖 [`docs/migration-guide-v4.md`](docs/migration-guide-v4.md) | Guía paso a paso para migrar a BoardAI OS v4.0.0 |
 | 📖 [`docs/sdd-philosophy.md`](docs/sdd-philosophy.md) | Modelo mental de Specification-Driven Development |
 | 🧠 [`docs/workflow-memory.md`](docs/workflow-memory.md) | Arquitectura de la Memoria Persistente en 3 capas |
 | 🔄 [`docs/workflow-dag.md`](docs/workflow-dag.md) | Definición y modos de ejecución de workflows con DAG |
@@ -242,7 +245,7 @@ bash .ai/agents/scripts/migrate-to-abbia.sh
 
 <div align="center">
 
-**Abbia OS** · *Layered Context, Structured Memory, Autonomous Delivery.*  
+**BoardAI OS** · *Layered Context, Structured Memory, Autonomous Delivery.*  
 Construido con pasión para llevar el desarrollo con IA al siguiente nivel de calidad.  
 Distribuido bajo licencia [MIT](LICENSE).
 
