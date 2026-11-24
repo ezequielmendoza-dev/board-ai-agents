@@ -15,10 +15,14 @@
     </linearGradient>
     <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="70%" stop-color="#f8fafc"/>
+      <stop offset="65%" stop-color="#f8fafc"/>
       <stop offset="100%" stop-color="#38bdf8"/>
     </linearGradient>
-    
+    <linearGradient id="boardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9"/>
+    </linearGradient>
+
     <!-- Glow Filters -->
     <filter id="skyGlow" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="3" result="blur"/>
@@ -39,43 +43,52 @@
   <!-- Background Canvas Card -->
   <rect width="900" height="240" rx="16" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
 
-  <!-- ==================== PRISMA DELTA LOGO MARK ==================== -->
-  <g transform="translate(20, 0)">
-    <!-- Outer Triangle Left Diagonal -->
-    <line x1="120" y1="36" x2="35" y2="195" stroke="#38bdf8" stroke-width="3.5" stroke-linecap="round" filter="url(#skyGlow)"/>
-    <!-- Inner Triangle Left Diagonal -->
-    <line x1="120" y1="54" x2="48" y2="195" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+  <!-- ==================== BOARDAI CIRCUIT / PATCHBAY LOGO MARK ==================== -->
+  <g transform="translate(22, 0)">
+    <!-- Board Pins / Edge Connectors (Top & Bottom) -->
+    <line x1="85" y1="26" x2="85" y2="36" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    <line x1="120" y1="22" x2="120" y2="36" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" filter="url(#skyGlow)"/>
+    <line x1="155" y1="26" x2="155" y2="36" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
 
-    <!-- Outer Triangle Right Diagonal -->
-    <line x1="120" y1="36" x2="205" y2="195" stroke="#38bdf8" stroke-width="3.5" stroke-linecap="round" filter="url(#skyGlow)"/>
-    <!-- Inner Triangle Right Diagonal -->
-    <line x1="120" y1="54" x2="192" y2="195" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+    <line x1="85" y1="204" x2="85" y2="214" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    <line x1="120" y1="204" x2="120" y2="218" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" filter="url(#skyGlow)"/>
+    <line x1="155" y1="204" x2="155" y2="214" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
 
-    <!-- Apex Top Arrow Marker -->
-    <polygon points="120,24 114,35 126,35" fill="#38bdf8" filter="url(#skyGlow)"/>
+    <!-- Outer Board Frame -->
+    <rect x="36" y="36" width="168" height="168" rx="24" fill="url(#boardGrad)" stroke="#38bdf8" stroke-width="3.5" filter="url(#skyGlow)"/>
+    <!-- Inner Board Frame -->
+    <rect x="46" y="46" width="148" height="148" rx="16" fill="none" stroke="#0284c7" stroke-width="2" opacity="0.8"/>
 
-    <!-- Middle Crossbar (Double line with center diamond gap) -->
-    <!-- Left Segment -->
-    <line x1="78" y1="120" x2="108" y2="120" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
-    <line x1="78" y1="128" x2="108" y2="128" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
-    <!-- Right Segment -->
-    <line x1="132" y1="120" x2="162" y2="120" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
-    <line x1="132" y1="128" x2="162" y2="128" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+    <!-- DAG Signal Routing Traces -->
+    <polyline points="76,78 60,120 76,162" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+    <polyline points="164,78 180,120 164,162" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+    <line x1="120" y1="78" x2="120" y2="107" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="120" y1="133" x2="120" y2="162" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round"/>
 
-    <!-- Middle Stage Nodes -->
-    <circle cx="78" cy="124" r="7.5" fill="#34d399" stroke="#065f46" stroke-width="2"/>
-    <circle cx="162" cy="124" r="7.5" fill="#34d399" stroke="#065f46" stroke-width="2"/>
+    <!-- Top Bus (Double Line) -->
+    <line x1="76" y1="75" x2="164" y2="75" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+    <line x1="76" y1="81" x2="164" y2="81" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Middle Bus (Double Line with Center Core Gap) -->
+    <line x1="60" y1="116" x2="105" y2="116" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+    <line x1="60" y1="124" x2="105" y2="124" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+    <line x1="135" y1="116" x2="180" y2="116" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+    <line x1="135" y1="124" x2="180" y2="124" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Bottom Bus (Double Line) -->
+    <line x1="76" y1="159" x2="164" y2="159" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+    <line x1="76" y1="165" x2="164" y2="165" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Stage Nodes (Emerald) -->
+    <circle cx="76" cy="78" r="7" fill="#34d399" stroke="#065f46" stroke-width="2"/>
+    <circle cx="164" cy="78" r="7" fill="#34d399" stroke="#065f46" stroke-width="2"/>
+    <circle cx="60" cy="120" r="7" fill="#34d399" stroke="#065f46" stroke-width="2"/>
+    <circle cx="180" cy="120" r="7" fill="#34d399" stroke="#065f46" stroke-width="2"/>
+    <circle cx="76" cy="162" r="7" fill="#34d399" stroke="#065f46" stroke-width="2"/>
+    <circle cx="164" cy="162" r="7" fill="#34d399" stroke="#065f46" stroke-width="2"/>
 
     <!-- Center Memory Core Diamond -->
-    <polygon points="120,114 130,124 120,134 110,124" fill="url(#purpleGrad)" stroke="#e9d5ff" stroke-width="1.5" filter="url(#purpleGlow)"/>
-
-    <!-- Base Crossbar (Double Line) -->
-    <line x1="35" y1="191" x2="205" y2="191" stroke="#34d399" stroke-width="3.5" stroke-linecap="round"/>
-    <line x1="35" y1="199" x2="205" y2="199" stroke="#34d399" stroke-width="3.5" stroke-linecap="round"/>
-
-    <!-- Base Corner Nodes -->
-    <circle cx="35" cy="195" r="8.5" fill="#34d399" stroke="#065f46" stroke-width="2"/>
-    <circle cx="205" cy="195" r="8.5" fill="#34d399" stroke="#065f46" stroke-width="2"/>
+    <polygon points="120,108 132,120 120,132 108,120" fill="url(#purpleGrad)" stroke="#e9d5ff" stroke-width="1.5" filter="url(#purpleGlow)"/>
   </g>
 
   <!-- ==================== BRAND TYPOGRAPHY & CHIPS ==================== -->
@@ -83,14 +96,14 @@
     <!-- Top System Version Badge -->
     <g transform="translate(0, 42)">
       <rect width="68" height="22" rx="6" fill="#0369a1" fill-opacity="0.3" stroke="#38bdf8" stroke-width="1"/>
-      <text x="34" y="15" fill="#38bdf8" class="font-mono" font-size="11" font-weight="700" text-anchor="middle">v4.0.0</text>
+      <text x="34" y="15" fill="#38bdf8" class="font-mono" font-size="11" font-weight="700" text-anchor="middle">v4.2.0</text>
 
       <text x="80" y="15" fill="#64748b" class="font-mono" font-size="12">│</text>
       <text x="96" y="15" fill="#94a3b8" class="font-sans" font-size="12" font-weight="500" letter-spacing="1">AI SOFTWARE ENGINEERING OS</text>
     </g>
 
     <!-- Main Title -->
-    <text x="0" y="112" fill="url(#titleGrad)" class="font-title" font-size="46" letter-spacing="2">ABBIA OS</text>
+    <text x="0" y="112" fill="url(#titleGrad)" class="font-title" font-size="46" letter-spacing="2">BOARDAI OS</text>
 
     <!-- Subtitle / Tagline -->
     <text x="0" y="142" fill="#94a3b8" class="font-sans" font-size="15" font-style="italic" font-weight="400">

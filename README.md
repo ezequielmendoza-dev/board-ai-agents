@@ -1,13 +1,13 @@
 <div align="center">
 
-<img src="docs/assets/abbia-banner.svg" alt="BoardAI OS — AI Software Engineering Operating System" width="100%" />
+<img src="docs/assets/boardai-banner.svg" alt="BoardAI OS — AI Software Engineering Operating System" width="100%" />
 
 <br/><br/>
 
 ### *De la improvisación en el chat a la precisión de un estudio de ingeniería.*
 **Framework de Specification-Driven Development (SDD) & Orquestación Multi-Agente Asistida por IA**
 
-[![Version](https://img.shields.io/badge/version-v4.0.0-38bdf8.svg?style=for-the-badge&logo=git)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v4.2.0-38bdf8.svg?style=for-the-badge&logo=git)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-stable-34d399.svg?style=for-the-badge)](README.md)
 [![Philosophy](https://img.shields.io/badge/architecture-SDD%20%7C%20DAG%20%7C%20ADR-a855f7.svg?style=for-the-badge)](docs/sdd-philosophy.md)
 [![Memory](https://img.shields.io/badge/memory-3--Tier%20Persistent-10b981.svg?style=for-the-badge)](docs/workflow-memory.md)
